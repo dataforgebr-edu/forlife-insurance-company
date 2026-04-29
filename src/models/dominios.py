@@ -25,7 +25,7 @@ class EstatusApolice(Base):
     __tablename__ = "estatus_apolice"
     __table_args__ = {"schema": "seguros"}
 
-    status_apolice_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    estatus_apolice_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
 

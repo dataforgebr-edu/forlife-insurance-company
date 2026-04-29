@@ -4,9 +4,9 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -279.2438,
-    "scrollLeft": -70,
-    "zoomLevel": 0.79,
+    "scrollTop": -643.8751,
+    "scrollLeft": -525.9887,
+    "zoomLevel": 0.55,
     "show": 431,
     "database": 4,
     "databaseName": "seguros",
@@ -271,7 +271,7 @@
       },
       "_MZI41DWsoHwICIr0TEYP": {
         "id": "_MZI41DWsoHwICIr0TEYP",
-        "name": "periodicidade_paramento",
+        "name": "periodicidade_pargmento",
         "comment": "tabela com as opções de prazos para pagamentos",
         "columnIds": [
           "9iS_Lqz61oiNXZouGwTrj",
@@ -286,12 +286,12 @@
           "x": -1.4328,
           "y": 663.5052,
           "zIndex": 451,
-          "widthName": 137,
+          "widthName": 138,
           "widthComment": 267,
           "color": ""
         },
         "meta": {
-          "updateAt": 1776066548216,
+          "updateAt": 1776157955554,
           "createAt": 1776065577384
         }
       },
@@ -2406,7 +2406,7 @@
           "columnIds": [
             "9iS_Lqz61oiNXZouGwTrj"
           ],
-          "x": 436.5672,
+          "x": 437.5672,
           "y": 715.5052,
           "direction": 2
         },

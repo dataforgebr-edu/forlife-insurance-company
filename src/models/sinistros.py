@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, func
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 from database.database import Base
 
@@ -12,7 +12,7 @@ class Sinistros(Base):
 
     sinistro_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     valor: Mapped[float] = mapped_column(Numeric(precision=10, scale=2))
-    data_pagamento: Mapped[datetime] = mapped_column(datetime)
+    data_pagamento: Mapped[datetime] = mapped_column(DateTime)
     data_insercao: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     data_atualizacao: Mapped[datetime] = mapped_column(
         DateTime, default=func.now(), onupdate=func.now()
