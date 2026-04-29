@@ -15,16 +15,15 @@ class Cliente(Base):
 
     cliente_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100))
-    email: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(50))
     telefone: Mapped[Optional[str]] = mapped_column(String(12))
     endereco: Mapped[Optional[str]] = mapped_column(String(200))
-    cidade: Mapped[Optional[str]] = mapped_column(String(50))
     data_nascimento: Mapped[date] = mapped_column(Date)
     data_insercao: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     data_atualizacao: Mapped[datetime] = mapped_column(
         DateTime, default=func.now(), onupdate=func.now()
     )
 
-    estado_id: Mapped[int] = mapped_column(
-        ForeignKey("estados.estado_id"), nullable=False
+    cidade_id: Mapped[int] = mapped_column(
+        ForeignKey("cidades.cidade_id"), nullable=False
     )

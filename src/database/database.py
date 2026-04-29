@@ -28,7 +28,6 @@ url_object = URL.create(
 
 
 # SQL_ALCHEMY_DATABASE = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-print(f"String de conexão com o banco= {url_object}")
 
 engine = create_engine(url_object)
 

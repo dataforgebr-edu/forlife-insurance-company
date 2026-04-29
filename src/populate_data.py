@@ -16,6 +16,7 @@ from models.apolice import Apolice
 from models.cliente import Cliente
 from models.corretor import Corretor
 from models.dominios import (
+    Cidade,
     Estados,
     EstatusApolice,
     EstatusSinistro,
@@ -32,6 +33,7 @@ faker = Faker("pt_BR")
 @dataclass(frozen=True)
 class ReferenceIds:
     estado_ids: list[int]
+    cidades_ids: list[int]
     produto_ids: list[int]
     estatus_apolice_ids: list[int]
     periodicidade_ids: list[int]
@@ -61,12 +63,37 @@ def bootstrap_domain_data(session: Session) -> None:
     if not session.scalar(select(Estados.estado_id).limit(1)):
         session.add_all(
             [
-                Estados(uf="SP", descricao="Sao Paulo"),
+                Estados(uf="SP", descricao="São Paulo"),
                 Estados(uf="RJ", descricao="Rio de Janeiro"),
                 Estados(uf="MG", descricao="Minas Gerais"),
-                Estados(uf="PR", descricao="Parana"),
+                Estados(uf="PR", descricao="Paraná"),
                 Estados(uf="RS", descricao="Rio Grande do Sul"),
                 Estados(uf="BA", descricao="Bahia"),
+            ]
+        )
+        session.flush()
+
+    if not session.scalar(select(Cidade.cidade_id).limit(1)):
+        cidades_por_uf = {
+            "SP": ["São Paulo", "Campinas", "Santos", "Sorocaba"],
+            "RJ": ["Rio de Janeiro", "Niterói", "Petrópolis", "Volta Redonda"],
+            "MG": ["Belo Horizonte", "Uberlândia", "Contagem", "Juiz de Fora"],
+            "PR": ["Curitiba", "Londrina", "Maringá", "Ponta Grossa"],
+            "RS": ["Porto Alegre", "Caxias do Sul", "Pelotas", "Santa Maria"],
+            "BA": ["Salvador", "Feira de Santana", "Vitória da Conquista", "Ilhéus"],
+        }
+        estado_ids_por_uf = {
+            uf: estado_id
+            for estado_id, uf in session.execute(
+                select(Estados.estado_id, Estados.uf)
+            ).all()
+        }
+        session.add_all(
+            [
+                Cidade(descricao=cidade, estado_id=estado_ids_por_uf[uf])
+                for uf, cidades in cidades_por_uf.items()
+                for cidade in cidades
+                if uf in estado_ids_por_uf
             ]
         )
 
@@ -101,9 +128,9 @@ def bootstrap_domain_data(session: Session) -> None:
     if not session.scalar(select(MeioPagamento.meio_pagamento_id).limit(1)):
         session.add_all(
             [
-                MeioPagamento(descricao="Cartao de Credito"),
+                MeioPagamento(descricao="Cartão de Crédito"),
                 MeioPagamento(descricao="Boleto"),
-                MeioPagamento(descricao="Debito em Conta"),
+                MeioPagamento(descricao="Débito em Conta"),
                 MeioPagamento(descricao="Pix"),
             ]
         )
@@ -123,6 +150,7 @@ def bootstrap_domain_data(session: Session) -> None:
 def load_reference_ids(session: Session) -> ReferenceIds:
     return ReferenceIds(
         estado_ids=session.scalars(select(Estados.estado_id)).all(),
+        cidades_ids=session.scalars(select(Cidade.cidade_id)).all(),
         produto_ids=session.scalars(select(Produtos.produto_id)).all(),
         estatus_apolice_ids=session.scalars(
             select(EstatusApolice.estatus_apolice_id)
@@ -141,10 +169,13 @@ def load_reference_ids(session: Session) -> ReferenceIds:
 
 def create_corretor(session: Session, estado_ids: list[int]) -> Corretor:
     data_insercao = faker.date_time_between(start_date="-6y", end_date="-60d")
+    nome_faker = f"{faker.first_name()} {faker.last_name()}"
+    email_faker = f"{nome_faker.replace(' ', '.').lower()}@{faker.free_email_domain()}"
+
     corretor = Corretor(
-        nome=faker.name(),
+        nome=nome_faker,
         cnpj=faker.cnpj(),
-        email=faker.email(),
+        email=email_faker,
         estado_id=random.choice(estado_ids),
         data_insercao=data_insercao,
         data_atualizacao=data_insercao,
@@ -160,14 +191,16 @@ def create_cliente(session: Session, corretor: Corretor, refs: ReferenceIds) -> 
     data_insercao = faker.date_time_between_dates(
         datetime_start=inicio, datetime_end=fim
     )
+    nome_faker = f"{faker.first_name()} {faker.last_name()}"
+    email_faker = f"{nome_faker.replace(' ', '.').lower()}@{faker.free_email_domain()}"
+
     cliente = Cliente(
-        nome=faker.name(),
-        email=faker.email(),
+        nome=nome_faker,
+        email=email_faker,
         telefone=faker.msisdn()[:12],
         endereco=faker.street_address(),
-        cidade=faker.city(),
+        cidade_id=random.choice(refs.cidades_ids),
         data_nascimento=faker.date_of_birth(minimum_age=18, maximum_age=85),
-        estado_id=random.choice(refs.estado_ids),
         data_insercao=data_insercao,
         data_atualizacao=data_insercao,
     )

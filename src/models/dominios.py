@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String
+from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database.database import Base
@@ -10,6 +10,16 @@ class Estados(Base):
     estado_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     uf: Mapped[str] = mapped_column(String(2))
     descricao: Mapped[str] = mapped_column(String(50))
+
+
+class Cidade(Base):
+    __tablename__ = "cidades"
+
+    cidade_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    descricao: Mapped[str] = mapped_column(String(100))
+    estado_id: Mapped[int] = mapped_column(
+        ForeignKey("estados.estado_id"), nullable=False
+    )
 
 
 class Produtos(Base):

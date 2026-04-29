@@ -12,8 +12,8 @@ class Corretor(Base):
 
     corretor_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100))
-    cnpj: Mapped[str] = mapped_column(String(100))
-    email: Mapped[Optional[str]] = mapped_column(String(12))
+    cnpj: Mapped[str] = mapped_column(String(20))
+    email: Mapped[Optional[str]] = mapped_column(String(50))
     data_insercao: Mapped[datetime] = mapped_column(DateTime)
     data_atualizacao: Mapped[datetime] = mapped_column(DateTime)
 

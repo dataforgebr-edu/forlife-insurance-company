@@ -28,3 +28,8 @@ Execucao continua:
 cd src
 python populate_data.py --mode continuous --batch-size 10 --interval-seconds 30
 ```
+
+# Next Steps
+
+- Implementar decorador para registro de logs
+- Criar uma API para expor os dados
