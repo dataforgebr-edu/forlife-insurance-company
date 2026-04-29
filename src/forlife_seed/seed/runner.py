@@ -11,11 +11,11 @@ from faker import Faker
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from database.database import Base, engine, get_db
-from models.cliente import Cliente
-from models.corretor import Corretor
-from seed.bootstrap import bootstrap_domain_data, load_domain_references
-from seed.factories import (
+from forlife_seed.database.database import Base, get_db, get_engine
+from forlife_seed.models.cliente import Cliente
+from forlife_seed.models.corretor import Corretor
+from forlife_seed.seed.bootstrap import bootstrap_domain_data, load_domain_references
+from forlife_seed.seed.factories import (
     create_apolice,
     create_cliente,
     create_corretor,
@@ -113,7 +113,7 @@ def run_batch(
 
 
 def main() -> None:
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(get_engine())
     args = parse_args()
     _seed_random_generators(args.seed)
 

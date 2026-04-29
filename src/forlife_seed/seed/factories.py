@@ -1,20 +1,19 @@
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 from decimal import Decimal
 
 from faker import Faker
 from sqlalchemy.orm import Session
 
-from models.apolice import Apolice
-from models.cliente import Cliente
-from models.corretor import Corretor
-from models.parcelas import Parcelas
-from models.sinistros import Sinistros
-from seed.bootstrap import PERIODICIDADE_MESES
-from seed.types import CreatedApolice, DomainReferences
+from forlife_seed.models.apolice import Apolice
+from forlife_seed.models.cliente import Cliente
+from forlife_seed.models.corretor import Corretor
+from forlife_seed.models.parcelas import Parcelas
+from forlife_seed.models.sinistros import Sinistros
+from forlife_seed.seed.bootstrap import PERIODICIDADE_MESES
+from forlife_seed.seed.types import CreatedApolice, DomainReferences
 
 faker = Faker("pt_BR")
 

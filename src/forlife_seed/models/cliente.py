@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy import Date, DateTime, ForeignKey, Integer, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from database.database import Base
+from forlife_seed.database.database import Base
 
 
 class Cliente(Base):

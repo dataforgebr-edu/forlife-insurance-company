@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from database.database import Base
+from forlife_seed.database.database import Base
 
 
 class Estados(Base):
