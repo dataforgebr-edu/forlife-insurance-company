@@ -1,10 +1,13 @@
 from datetime import date, datetime
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import Date, DateTime, ForeignKey, Integer, String, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from forlife_insurance.database.database import Base
+
+if TYPE_CHECKING:
+    from forlife_insurance.models.apolice import Apolice
 
 
 class Cliente(Base):
@@ -27,3 +30,4 @@ class Cliente(Base):
     cidade_id: Mapped[int] = mapped_column(
         ForeignKey("cidades.cidade_id"), nullable=False
     )
+    apolice: Mapped[list[Apolice]] = relationship(back_populates="cliente")

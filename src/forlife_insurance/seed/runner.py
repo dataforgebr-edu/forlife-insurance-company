@@ -3,15 +3,13 @@ from __future__ import annotations
 import argparse
 import random
 import time
-from collections.abc import Iterator
-from contextlib import contextmanager
 from datetime import datetime
 
 from faker import Faker
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from forlife_insurance.database.database import Base, get_db, get_engine
+from forlife_insurance.database.database import init_database, session_scope
 from forlife_insurance.models.cliente import Cliente
 from forlife_insurance.models.corretor import Corretor
 from forlife_insurance.seed.bootstrap import (
@@ -25,16 +23,6 @@ from forlife_insurance.seed.factories import (
     create_parcelas,
     maybe_create_sinistro,
 )
-
-
-@contextmanager
-def session_scope() -> Iterator[Session]:
-    generator = get_db()
-    session = next(generator)
-    try:
-        yield session
-    finally:
-        generator.close()
 
 
 def parse_args() -> argparse.Namespace:
@@ -116,7 +104,7 @@ def run_batch(
 
 
 def main() -> None:
-    Base.metadata.create_all(get_engine())
+    init_database()
     args = parse_args()
     _seed_random_generators(args.seed)
 

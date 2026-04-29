@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from forlife_insurance.database.database import Base
+
+if TYPE_CHECKING:
+    from forlife_insurance.models.apolice import Apolice
 
 
 class Estados(Base):
@@ -11,12 +16,16 @@ class Estados(Base):
     uf: Mapped[str] = mapped_column(String(2))
     descricao: Mapped[str] = mapped_column(String(50))
 
+    cidades: Mapped[list[Cidade]] = relationship(back_populates="estados")
+
 
 class Cidade(Base):
     __tablename__ = "cidades"
 
     cidade_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
+
+    estados: Mapped[Estados] = relationship(back_populates="cidades")
     estado_id: Mapped[int] = mapped_column(
         ForeignKey("estados.estado_id"), nullable=False
     )
@@ -28,12 +37,16 @@ class Produtos(Base):
     produto_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
+    apolice: Mapped[list[Apolice]] = relationship(back_populates="produtos")
+
 
 class EstatusApolice(Base):
     __tablename__ = "estatus_apolice"
 
     estatus_apolice_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
+
+    apolice: Mapped[list[Apolice]] = relationship(back_populates="estatus_apolice")
 
 
 class PeriodicidadePagamento(Base):
@@ -42,12 +55,18 @@ class PeriodicidadePagamento(Base):
     periodicidade_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
+    apolice: Mapped[list[Apolice]] = relationship(
+        back_populates="periodicidade_pagamento"
+    )
+
 
 class MeioPagamento(Base):
     __tablename__ = "meio_pagamento"
 
     meio_pagamento_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
+
+    apolice: Mapped[list[Apolice]] = relationship(back_populates="meio_pagamento")
 
 
 class EstatusSinistro(Base):

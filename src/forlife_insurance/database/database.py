@@ -1,11 +1,14 @@
+from collections.abc import Generator
+from contextlib import contextmanager
+
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from forlife_insurance.core.config import get_database_settings
 
 _engine: Engine | None = None
-_session_local: sessionmaker | None = None
+_session_local: sessionmaker[Session] | None = None
 
 
 class Base(DeclarativeBase):
@@ -22,7 +25,11 @@ def get_engine() -> Engine:
     return _engine
 
 
-def get_session_local() -> sessionmaker:
+def init_database() -> None:
+    Base.metadata.create_all(get_engine())
+
+
+def get_session_local() -> sessionmaker[Session]:
     global _session_local
 
     if _session_local is None:
@@ -35,9 +42,18 @@ def get_session_local() -> sessionmaker:
     return _session_local
 
 
-def get_db():
-    db = get_session_local()()
+def get_db() -> Generator[Session, None, None]:
+    session = get_session_local()()
     try:
-        yield db
+        yield session
     finally:
-        db.close()
+        session.close()
+
+
+@contextmanager
+def session_scope() -> Generator[Session, None, None]:
+    session = get_session_local()()
+    try:
+        yield session
+    finally:
+        session.close()
