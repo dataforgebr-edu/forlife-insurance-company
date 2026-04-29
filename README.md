@@ -76,6 +76,7 @@ Documentação: [apps/api/README.md](apps/api/README.md)
 
 Requisitos atuais:
 
+- Pyenv `3.x`
 - Python `3.14.2`
 - Poetry `2.x`
 - PostgreSQL disponível localmente ou em container

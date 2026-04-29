@@ -25,6 +25,7 @@ Principais módulos:
 
 ## Requisitos
 
+- Pyenv `3.x`
 - Python `3.14.2`
 - Poetry `2.x`
 - PostgreSQL disponível localmente ou em container
@@ -47,12 +48,6 @@ Crie o arquivo `.env` a partir do exemplo:
 
 ```bash
 cp .env.example .env
-```
-
-No PowerShell:
-
-```powershell
-Copy-Item .env.example .env
 ```
 
 Preencha as variáveis:
@@ -100,7 +95,7 @@ poetry run forlife-seed --mode once --batch-size 20
 Execução contínua:
 
 ```bash
-poetry run forlife-seed --mode continuous --batch-size 10 --interval-seconds 30
+poetry run forlife-seed --mode continuous --batch-size 20 --interval-seconds 30
 ```
 
 Execução reproduzível:
@@ -125,26 +120,134 @@ poetry run forlife-seed --mode once --batch-size 20 --seed 42
 
 ## Modelo ERD
 
-O diagrama relacional utilizado pelo seed está em:
+O diagrama-fonte do modelo relacional utilizado pelo seed está em:
 
 ```text
 src/forlife_insurance/assets/database_diagrama.erd.json
 ```
 
-Tabelas principais:
+O desenho abaixo mostra as tabelas e os relacionamentos entre elas:
 
-- `cliente`
-- `corretor`
-- `apolice`
-- `parcelas`
-- `sinistros`
-- `estados`
-- `cidades`
-- `produtos`
-- `estatus_apolice`
-- `periodicidade_pagamento`
-- `meio_pagamento`
-- `estatus_sinistro`
+```mermaid
+erDiagram
+  cliente {
+    INTEGER cliente_id PK
+    VARCHAR nome
+    VARCHAR email
+    VARCHAR telefone
+    VARCHAR endereco
+    DATETIME data_nascimento
+    DATETIME data_insercao
+    DATETIME data_atualizacao
+    INTEGER cidade_id FK
+  }
+
+  corretor {
+    INTEGER corretor_id PK
+    VARCHAR nome
+    VARCHAR cnpj
+    VARCHAR email
+    DATETIME data_insercao
+    DATETIME data_atualizacao
+    INTEGER cidade_id FK
+    INTEGER estado_id FK
+  }
+
+  apolice {
+    INTEGER apolice_id PK
+    FLOAT capital_segurado
+    FLOAT premio
+    DATETIME inicio_vigencia
+    DATETIME fim_vigencia
+    DATETIME data_insercao
+    DATETIME data_atualizacao
+    INTEGER periodicidade_id FK
+    INTEGER produto_id FK
+    INTEGER corretor_id FK
+    INTEGER cliente_id FK
+    INTEGER meio_pagamento_id FK
+    INTEGER estatus_apolice_id FK
+  }
+
+  parcelas {
+    INTEGER parcela_id PK
+    FLOAT valor
+    DATETIME data_emissao
+    DATETIME data_periodo
+    DATETIME data_pagamento
+    DATETIME data_insercao
+    DATETIME data_atualizacao
+    INTEGER meio_pagamento_id FK
+    INTEGER apolice_id FK
+  }
+
+  sinistros {
+    INTEGER sinistro_id PK
+    FLOAT valor
+    DATETIME data_pagamento
+    DATETIME data_insercao
+    DATETIME data_atualizacao
+    INTEGER estatus_sinistro_id FK
+    INTEGER meio_pagamento_id FK
+    INTEGER apolice_id FK
+  }
+
+  estados {
+    INTEGER estado_id PK
+    VARCHAR uf
+    VARCHAR descricao
+  }
+
+  cidades {
+    INTEGER cidade_id PK
+    VARCHAR descricao
+    INTEGER estado_id FK
+  }
+
+  produtos {
+    INTEGER produto_id PK
+    VARCHAR descricao
+  }
+
+  periodicidade_pagamento {
+    INTEGER periodicidade_id PK
+    VARCHAR descricao
+  }
+
+  meio_pagamento {
+    INTEGER meio_pagamento_id PK
+    VARCHAR descricao
+  }
+
+  estatus_apolice {
+    INTEGER estatus_apolice_id PK
+    VARCHAR descricao
+  }
+
+  estatus_sinistro {
+    INTEGER estatus_sinistro_id PK
+    VARCHAR descricao
+  }
+
+  estados ||--o{ cidades : possui
+  cidades ||--o{ cliente : localiza
+  cidades ||--o{ corretor : localiza
+  estados ||--o{ corretor : habilita
+
+  cliente ||--o{ apolice : contrata
+  corretor ||--o{ apolice : vende
+  produtos ||--o{ apolice : classifica
+  periodicidade_pagamento ||--o{ apolice : define
+  meio_pagamento ||--o{ apolice : cobra
+  estatus_apolice ||--o{ apolice : status
+
+  apolice ||--o{ parcelas : gera
+  meio_pagamento ||--o{ parcelas : quita
+
+  apolice ||--o{ sinistros : origina
+  meio_pagamento ||--o{ sinistros : paga
+  estatus_sinistro ||--o{ sinistros : status
+```
 
 ## Comandos Úteis
 
