@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from forlife_seed.models.apolice import Apolice
+from forlife_insurance.models.apolice import Apolice
 
 
 @dataclass(frozen=True)

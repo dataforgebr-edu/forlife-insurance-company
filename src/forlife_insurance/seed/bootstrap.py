@@ -3,7 +3,7 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from forlife_seed.models.dominios import (
+from forlife_insurance.models.dominios import (
     Cidade,
     Estados,
     EstatusApolice,
@@ -12,7 +12,7 @@ from forlife_seed.models.dominios import (
     PeriodicidadePagamento,
     Produtos,
 )
-from forlife_seed.seed.types import DomainReferences
+from forlife_insurance.seed.types import DomainReferences
 
 PERIODICIDADE_MESES = {
     "Mensal": 1,

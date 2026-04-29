@@ -7,13 +7,13 @@ from decimal import Decimal
 from faker import Faker
 from sqlalchemy.orm import Session
 
-from forlife_seed.models.apolice import Apolice
-from forlife_seed.models.cliente import Cliente
-from forlife_seed.models.corretor import Corretor
-from forlife_seed.models.parcelas import Parcelas
-from forlife_seed.models.sinistros import Sinistros
-from forlife_seed.seed.bootstrap import PERIODICIDADE_MESES
-from forlife_seed.seed.types import CreatedApolice, DomainReferences
+from forlife_insurance.models.apolice import Apolice
+from forlife_insurance.models.cliente import Cliente
+from forlife_insurance.models.corretor import Corretor
+from forlife_insurance.models.parcelas import Parcelas
+from forlife_insurance.models.sinistros import Sinistros
+from forlife_insurance.seed.bootstrap import PERIODICIDADE_MESES
+from forlife_insurance.seed.types import CreatedApolice, DomainReferences
 
 faker = Faker("pt_BR")
 

@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-from forlife_seed.config import get_database_settings
+from forlife_insurance.core.config import get_database_settings
 
 _engine: Engine | None = None
 _session_local: sessionmaker | None = None

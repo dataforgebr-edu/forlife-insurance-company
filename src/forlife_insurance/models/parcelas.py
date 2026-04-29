@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from forlife_seed.database.database import Base
+from forlife_insurance.database.database import Base
 
 
 class Parcelas(Base):

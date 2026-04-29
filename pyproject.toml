@@ -1,5 +1,5 @@
 [project]
-name = "forlife_seed"
+name = "forlife_insurance"
 version = "0.1.0"
 description = "Projeto de dados para uma seguradora de vida, carros e automéveis"
 authors = [
@@ -25,7 +25,7 @@ dev = [
 ]
 
 [project.scripts]
-forlife-seed = "forlife_seed.seed.runner:main"
+forlife-seed = "forlife_insurance.seed.runner:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
