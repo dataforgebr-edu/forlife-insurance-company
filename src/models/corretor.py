@@ -9,7 +9,6 @@ from database.database import Base
 
 class Corretor(Base):
     __tablename__ = "corretor"
-    __table_args__ = {"schema": "seguros"}
 
     corretor_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100))
@@ -18,4 +17,4 @@ class Corretor(Base):
     data_insercao: Mapped[datetime] = mapped_column(DateTime)
     data_atualizacao: Mapped[datetime] = mapped_column(DateTime)
 
-    estado_id: Mapped[int] = mapped_column(ForeignKey("seguros.estados.estado_id"))
+    estado_id: Mapped[int] = mapped_column(ForeignKey("estados.estado_id"))

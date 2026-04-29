@@ -11,7 +11,7 @@ from faker import Faker
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from database.database import Localsession
+from database.database import Base, Localsession, engine
 from models.apolice import Apolice
 from models.cliente import Cliente
 from models.corretor import Corretor
@@ -322,8 +322,6 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     # Inicializar banco de dados
-    from database.database import Base, engine
-
     Base.metadata.create_all(engine)
 
     args = parse_args()

@@ -9,7 +9,9 @@ from database.database import Base
 
 class Cliente(Base):
     __tablename__ = "cliente"
-    __table_args__ = {"schema": "seguros"}
+
+    # se for necessário definir schemas diferentes para cada tabela
+    # __table_args__ = {"schema": "seguros"}
 
     cliente_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100))
@@ -24,5 +26,5 @@ class Cliente(Base):
     )
 
     estado_id: Mapped[int] = mapped_column(
-        ForeignKey("seguros.estados.estado_id"), nullable=False
+        ForeignKey("estados.estado_id"), nullable=False
     )
