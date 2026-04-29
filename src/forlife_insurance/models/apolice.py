@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,6 +15,8 @@ if TYPE_CHECKING:
         PeriodicidadePagamento,
         Produtos,
     )
+    from forlife_insurance.models.parcelas import Parcelas
+    from forlife_insurance.models.sinistros import Sinistros
 
 
 class Apolice(Base):
@@ -61,3 +63,7 @@ class Apolice(Base):
     cliente_id: Mapped[int] = mapped_column(
         ForeignKey("cliente.cliente_id"), nullable=False
     )
+
+    sinistros: Mapped[Optional[Sinistros]] = relationship(back_populates="apolice")
+
+    parcelas: Mapped[Parcelas] = relationship(back_populates="apolice")

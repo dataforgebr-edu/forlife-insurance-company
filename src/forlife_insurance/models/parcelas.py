@@ -1,9 +1,13 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from forlife_insurance.database.database import Base
+
+if TYPE_CHECKING:
+    from forlife_insurance.models.apolice import Apolice
 
 
 class Parcelas(Base):
@@ -25,3 +29,5 @@ class Parcelas(Base):
     meio_pagamento_id: Mapped[int] = mapped_column(
         ForeignKey("meio_pagamento.meio_pagamento_id"), nullable=False
     )
+
+    parcelas: Mapped[list[Apolice]] = relationship(back_populates="parcelas")

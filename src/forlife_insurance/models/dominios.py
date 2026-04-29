@@ -7,6 +7,8 @@ from forlife_insurance.database.database import Base
 
 if TYPE_CHECKING:
     from forlife_insurance.models.apolice import Apolice
+    from forlife_insurance.models.parcelas import Parcelas
+    from forlife_insurance.models.sinistros import Sinistros
 
 
 class Estados(Base):
@@ -59,6 +61,10 @@ class PeriodicidadePagamento(Base):
         back_populates="periodicidade_pagamento"
     )
 
+    sinistro: Mapped[list[Sinistros]] = relationship(
+        back_populates="periodicidade_pagamento"
+    )
+
 
 class MeioPagamento(Base):
     __tablename__ = "meio_pagamento"
@@ -67,6 +73,10 @@ class MeioPagamento(Base):
     descricao: Mapped[str] = mapped_column(String(100))
 
     apolice: Mapped[list[Apolice]] = relationship(back_populates="meio_pagamento")
+
+    sinistro: Mapped[list[Sinistros]] = relationship(back_populates="meio_pagamento")
+
+    parcela: Mapped[list[Parcelas]] = relationship(back_populates="meio_pagamento")
 
 
 class EstatusSinistro(Base):
