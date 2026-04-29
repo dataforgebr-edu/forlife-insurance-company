@@ -1,8 +1,8 @@
 from datetime import date, datetime
-from typing import List, Optional
+from typing import Optional
 
-from sqlalchemy import Date, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Date, DateTime, ForeignKey, Integer, String, func
+from sqlalchemy.orm import Mapped, mapped_column
 
 from database.database import Base
 
@@ -18,10 +18,11 @@ class Cliente(Base):
     endereco: Mapped[Optional[str]] = mapped_column(String(200))
     cidade: Mapped[Optional[str]] = mapped_column(String(50))
     data_nascimento: Mapped[date] = mapped_column(Date)
-    data_insercao: Mapped[datetime] = mapped_column(DateTime)
-    data_atualizacao: Mapped[datetime] = mapped_column(DateTime)
+    data_insercao: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    data_atualizacao: Mapped[datetime] = mapped_column(
+        DateTime, default=func.now(), onupdate=func.now()
+    )
 
     estado_id: Mapped[int] = mapped_column(
         ForeignKey("seguros.estados.estado_id"), nullable=False
     )
-    estado_back: Mapped["Estados"] = relationship(back_populates="cliente_back")

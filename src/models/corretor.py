@@ -1,8 +1,8 @@
-from datetime import date, datetime
-from typing import List, Optional
+from datetime import datetime
+from typing import Optional
 
-from sqlalchemy import Date, DateTime, ForeignKey, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from database.database import Base
 
@@ -19,4 +19,3 @@ class Corretor(Base):
     data_atualizacao: Mapped[datetime] = mapped_column(DateTime)
 
     estado_id: Mapped[int] = mapped_column(ForeignKey("seguros.estados.estado_id"))
-    estado_back: Mapped["Estados"] = relationship(back_populates="corretor_back")
