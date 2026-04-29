@@ -149,7 +149,6 @@ erDiagram
     VARCHAR email
     DATETIME data_insercao
     DATETIME data_atualizacao
-    INTEGER cidade_id FK
     INTEGER estado_id FK
   }
 
@@ -231,7 +230,6 @@ erDiagram
 
   estados ||--o{ cidades : possui
   cidades ||--o{ cliente : localiza
-  cidades ||--o{ corretor : localiza
   estados ||--o{ corretor : habilita
 
   cliente ||--o{ apolice : contrata
