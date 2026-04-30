@@ -21,7 +21,7 @@ src/forlife_insurance_extract/
   services/
 ```
 
-## Preparacao
+## Preparação
 
 ```bash
 poetry install
@@ -50,7 +50,7 @@ poetry run uvicorn forlife_insurance_extract.app:app --reload
 poetry run forlife-extract-apolices --output-path ./out/apolices.ndjson
 ```
 
-Parametros opcionais:
+Parâmetros opcionais:
 
 ```bash
 poetry run forlife-extract-apolices \
@@ -67,7 +67,7 @@ GET /extract/apolices
 GET /extract/apolices/stream
 ```
 
-## Dependencias
+## Dependências
 
 - `forlife-insurance-core`
 - FastAPI

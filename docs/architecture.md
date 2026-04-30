@@ -25,7 +25,7 @@ forlife-insurance-core
 ### Core
 
 Biblioteca interna compartilhada. Deve conter apenas recursos que todos os
-projetos podem reutilizar sem criar dependencia circular.
+projetos podem ser utilizados sem criar dependência circular.
 
 Responsabilidades:
 
@@ -35,10 +35,10 @@ Responsabilidades:
 - modelos ORM;
 - assets compartilhados, como o ERD.
 
-Nao deve conter:
+Não deve conter:
 
 - rotas HTTP;
-- jobs especificos;
+- jobs específicos;
 - schemas Pydantic de API ou extract;
 - lógica de geração de dados fake.
 
@@ -51,7 +51,7 @@ Responsabilidades:
 
 - carregar tabelas de domínio;
 - gerar clientes, corretores, apólices, parcelas e sinistros;
-- executar em modo pontual ou continuo;
+- executar em modo pontual ou contínuo;
 - usar `forlife-insurance-core` como fonte de models e banco.
 
 ### API
@@ -74,9 +74,9 @@ Responsabilidades:
 - rotas FastAPI de extração;
 - schemas planos e estáveis;
 - consultas incrementais por watermark e chave;
-- job CLI para exportacao NDJSON.
+- job CLI para exportação NDJSON.
 
-## Regras de Dependencia
+## Regras de Dependência
 
 - `core` não importa `seed`, `api` nem `extract`.
 - `seed`, `api` e `extract` podem importar `core`.
@@ -85,7 +85,7 @@ Responsabilidades:
 - `seed` não importa `api` nem `extract`.
 - Projetos novos devem ser criados dentro de `projects/`.
 
-## Evolucao Recomendada
+## Evolução Recomendada
 
 1. Criar testes por projeto.
 2. Adicionar CI para lint, type check e testes.

@@ -71,7 +71,7 @@ poetry run bandit -r src -lll
 poetry run pytest
 ```
 
-## Convencoes
+## Convenções
 
 - Novas entidades ORM devem entrar em `forlife-insurance-core`.
 - Novas rotas transacionais devem entrar em `forlife-insurance-api`.

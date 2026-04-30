@@ -19,7 +19,7 @@ src/forlife_insurance_api/
   services/
 ```
 
-## Preparacao
+## Preparação
 
 ```bash
 poetry install
@@ -36,7 +36,7 @@ DB_PORT=5432
 DB_NAME=seguros
 ```
 
-## Execucao
+## Execução
 
 ```bash
 poetry run uvicorn forlife_insurance_api.app:app --reload
@@ -49,7 +49,7 @@ GET /apolices
 GET /apolices/{apolice_id}
 ```
 
-## Dependencias
+## Dependências
 
 - `forlife-insurance-core`
 - FastAPI

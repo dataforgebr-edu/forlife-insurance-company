@@ -7,7 +7,7 @@ coerentes para o domínio de seguros.
 
 - Carregar tabelas de domínio.
 - Gerar clientes, corretores, apólices, parcelas e sinistros.
-- Executar carga unica ou continua.
+- Executar carga única ou contínua.
 - Consumir models e sessões do `forlife-insurance-core`.
 
 ## Estrutura
@@ -20,7 +20,7 @@ src/forlife_insurance_seed/
   types.py
 ```
 
-## Preparacao
+## Preparação
 
 ```bash
 poetry install
@@ -37,32 +37,32 @@ DB_PORT=5432
 DB_NAME=seguros
 ```
 
-## Execucao
+## Execução
 
-Carga unica:
+Carga única:
 
 ```bash
 poetry run forlife-seed --mode once --batch-size 20
 ```
 
-Carga continua:
+Carga contínua:
 
 ```bash
 poetry run forlife-seed --mode continuous --batch-size 20 --interval-seconds 30
 ```
 
-Carga reproduzivel:
+Carga reproduzível:
 
 ```bash
 poetry run forlife-seed --mode once --batch-size 20 --seed 42
 ```
 
-## Dependencias
+## Dependências
 
 - `forlife-insurance-core`
 - Faker
 
-## Observacoes
+## Observações
 
 As tabelas são criadas automaticamente pelo fluxo de seed usando os models do
 core. O banco PostgreSQL definido em `DB_NAME` precisa existir antes da

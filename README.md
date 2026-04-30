@@ -13,10 +13,6 @@ Forlife. O código foi organizado em projetos independentes dentro de
 | API | API transacional para consumo de aplicações. | `projects/forlife-insurance-api` |
 | Extract | API e job de extração analítica incremental. | `projects/forlife-insurance-extract` |
 
-O pedido funcional foi separar em `seed`, `api` e `extract`. O `core` fica como
-biblioteca interna para evitar duplicação de modelos, conexão e configuração
-entre os tres projetos.
-
 ## Estrutura
 
 ```text
@@ -31,7 +27,7 @@ projects/
     src/forlife_insurance_extract/
 ```
 
-## Dependencias Entre Projetos
+## Dependências Entre Projetos
 
 ```text
 forlife-insurance-core
@@ -40,7 +36,7 @@ forlife-insurance-core
   <- forlife-insurance-extract
 ```
 
-Boas praticas aplicadas nesta divisao:
+Boas práticas aplicadas no monorepo:
 
 - O `core` concentra somente código compartilhado de domínio e infraestrutura.
 - `seed`, `api` e `extract` dependem do `core`, não entre si.
@@ -48,7 +44,7 @@ Boas praticas aplicadas nesta divisao:
 - Os contratos da API e da extração ficam nos projetos consumidores.
 - Os entrypoints CLI ficam declarados apenas nos projetos que os executam.
 
-## Preparacao
+## Preparação
 
 Crie um `.env` em cada projeto que for executar, usando o `.env.example` do
 próprio projeto.

@@ -21,7 +21,7 @@ src/forlife_insurance_core/
   config.py
 ```
 
-## Dependencias
+## Dependências
 
 - SQLAlchemy
 - python-dotenv
