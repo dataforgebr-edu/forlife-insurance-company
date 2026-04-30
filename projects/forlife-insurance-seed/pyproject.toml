@@ -1,14 +1,15 @@
 [tool.poetry]
-name = "forlife-insurance-workspace"
+name = "forlife-insurance-seed"
 version = "0.1.0"
-description = "Workspace dos projetos Forlife Insurance"
+description = "Projeto independente de seed sintético para o domínio Forlife"
 authors = ["Rodrigo Silva <dataforge.br@gmail.com>"]
-license = "MIT"
 readme = "README.md"
-package-mode = false
+packages = [{ include = "forlife_insurance_seed", from = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.14,<4.0"
+faker = ">=37.11.0,<38.0.0"
+forlife-insurance-core = { path = "../forlife-insurance-core", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 black = ">=26.3.1,<27.0.0"
@@ -16,6 +17,9 @@ isort = ">=8.0.1,<9.0.0"
 bandit = ">=1.9.4,<2.0.0"
 pre-commit = ">=4.5.1,<5.0.0"
 pytest = ">=8.0.0,<9.0.0"
+
+[tool.poetry.scripts]
+forlife-seed = "forlife_insurance_seed.runner:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

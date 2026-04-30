@@ -1,122 +1,96 @@
-# Forlife Insurance Company
+# Forlife Insurance Workspace
 
-Projeto de dados para uma seguradora que vende apolices nos segmentos de vida,
-automovel e residencia.
+Workspace de estudos de engenharia de dados para o domínio de seguros da
+Forlife. O código foi organizado em projetos independentes dentro de
+`projects/`, cada um com pacote, dependências e entrypoints próprios.
 
-O repositorio concentra a base transacional do dominio e os aplicativos que
-operam sobre ela. Hoje o foco esta em tres fluxos principais:
+## Projetos
 
-- geracao de dados sinteticos coerentes com as regras de negocio da seguradora;
-- exposicao desses dados por meio de uma API transacional;
-- extracao incremental para consumo analitico e jobs de ingestao.
+| Projeto | Responsabilidade | Caminho |
+| --- | --- | --- |
+| Core | Biblioteca compartilhada com configuração, banco, ORM models e ERD. | `projects/forlife-insurance-core` |
+| Seed | Geração e carga de dados sintéticos no PostgreSQL. | `projects/forlife-insurance-seed` |
+| API | API transacional para consumo de aplicações. | `projects/forlife-insurance-api` |
+| Extract | API e job de extração analítica incremental. | `projects/forlife-insurance-extract` |
 
-## Visao Geral
-
-O projeto foi organizado como um monorepo simples com um pacote Python
-compartilhado e documentacao separada por aplicativo.
-
-- `seed`: cria e popula a base PostgreSQL com dados sinteticos.
-- `api`: expõe os dados do projeto para consumo por aplicacoes, estudos e
-  integracoes.
-- `extract`: disponibiliza consultas planas e incrementais para pipeline e
-  data lake.
-
-Os tres apps compartilham os mesmos modulos de dominio, conexao com banco e
-modelos relacionais, evitando duplicacao de regras e mantendo uma unica fonte
-de verdade para a estrutura dos dados.
+O pedido funcional foi separar em `seed`, `api` e `extract`. O `core` fica como
+biblioteca interna para evitar duplicação de modelos, conexão e configuração
+entre os tres projetos.
 
 ## Estrutura
 
 ```text
-forlife-insurance-company/
-  README.md
-  pyproject.toml
-  poetry.lock
-  .env.example
-
-  apps/
-    seed/
-      README.md
-    api/
-      README.md
-    extract/
-      README.md
-
-  src/
-    forlife_insurance/
-      core/
-      database/
-      models/
-      seed/
-      extract/
-      assets/
+projects/
+  forlife-insurance-core/
+    src/forlife_insurance_core/
+  forlife-insurance-seed/
+    src/forlife_insurance_seed/
+  forlife-insurance-api/
+    src/forlife_insurance_api/
+  forlife-insurance-extract/
+    src/forlife_insurance_extract/
 ```
 
-## Package Python
-
-O codigo compartilhado fica em `src/forlife_insurance`.
-
-- `core/`: configuracao da aplicacao e leitura de variaveis de ambiente.
-- `database/`: engine, sessoes e base do SQLAlchemy.
-- `models/`: definicao das tabelas e relacionamentos.
-- `seed/`: implementacao do processo de carga sintetica.
-- `extract/`: implementacao da camada de extracao analitica e dos jobs de
-  exportacao.
-- `assets/`: artefatos de apoio, incluindo o diagrama ERD.
-
-## Aplicativos
-
-### Seed
-
-Responsavel por criar a estrutura relacional e popular o banco com dados
-sinteticos consistentes com o dominio de seguros.
-
-Documentacao: [apps/seed/README.md](apps/seed/README.md)
-
-### API
-
-Responsavel por expor os dados do projeto por HTTP, reaproveitando os modelos e
-modulos compartilhados do pacote principal.
-
-Documentacao: [apps/api/README.md](apps/api/README.md)
-
-### Extract
-
-Responsavel por expor consultas planas, streaming NDJSON e jobs CLI para
-consumo analitico e orquestracao.
-
-Documentacao: [apps/extract/README.md](apps/extract/README.md)
-
-## Configurando o Ambiente
-
-Requisitos atuais:
-
-- Pyenv `3.x`
-- Python `3.14.2`
-- Poetry `2.x`
-- PostgreSQL disponivel localmente ou em container
-
-Defina a versao local do Python:
-
-```bash
-pyenv local 3.14.2
-```
-
-Instalacao das dependencias:
-
-```bash
-poetry install
-```
-
-A execucao dos modulos fica documentada em cada aplicativo.
-
-## Modelo de Dados
-
-O modelo ERD do projeto esta em:
+## Dependencias Entre Projetos
 
 ```text
-src/forlife_insurance/assets/database_diagrama.erd.json
+forlife-insurance-core
+  <- forlife-insurance-seed
+  <- forlife-insurance-api
+  <- forlife-insurance-extract
 ```
 
-Esse artefato representa a base relacional compartilhada pelos aplicativos do
-repositorio.
+Boas praticas aplicadas nesta divisao:
+
+- O `core` concentra somente código compartilhado de domínio e infraestrutura.
+- `seed`, `api` e `extract` dependem do `core`, não entre si.
+- Cada projeto possui `pyproject.toml` próprio.
+- Os contratos da API e da extração ficam nos projetos consumidores.
+- Os entrypoints CLI ficam declarados apenas nos projetos que os executam.
+
+## Preparacao
+
+Crie um `.env` em cada projeto que for executar, usando o `.env.example` do
+próprio projeto.
+
+```env
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=seguros
+```
+
+## Executar Seed
+
+```bash
+cd projects/forlife-insurance-seed
+poetry install
+poetry run forlife-seed --mode once --batch-size 20
+```
+
+## Executar API
+
+```bash
+cd projects/forlife-insurance-api
+poetry install
+poetry run uvicorn forlife_insurance_api.app:app --reload
+```
+
+## Executar Extract
+
+```bash
+cd projects/forlife-insurance-extract
+poetry install
+poetry run uvicorn forlife_insurance_extract.app:app --reload
+poetry run forlife-extract-apolices --output-path ./out/apolices.ndjson
+```
+
+## Documentação
+
+- [Arquitetura](docs/architecture.md)
+- [Guia de desenvolvimento](docs/development.md)
+- [Core](projects/forlife-insurance-core/README.md)
+- [Seed](projects/forlife-insurance-seed/README.md)
+- [API](projects/forlife-insurance-api/README.md)
+- [Extract](projects/forlife-insurance-extract/README.md)

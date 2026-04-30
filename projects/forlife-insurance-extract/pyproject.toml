@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "forlife-insurance-extract"
+version = "0.1.0"
+description = "Projeto independente de extração analítica do domínio Forlife"
+authors = ["Rodrigo Silva <dataforge.br@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "forlife_insurance_extract", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.14,<4.0"
+fastapi = ">=0.115.12,<1.0.0"
+uvicorn = ">=0.34.0,<1.0.0"
+pydantic = ">=2.13.3,<3.0.0"
+forlife-insurance-core = { path = "../forlife-insurance-core", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+black = ">=26.3.1,<27.0.0"
+isort = ">=8.0.1,<9.0.0"
+bandit = ">=1.9.4,<2.0.0"
+pre-commit = ">=4.5.1,<5.0.0"
+pytest = ">=8.0.0,<9.0.0"
+
+[tool.poetry.scripts]
+forlife-extract-apolices = "forlife_insurance_extract.jobs.apolice:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
