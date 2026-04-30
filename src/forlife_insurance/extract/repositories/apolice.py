@@ -10,11 +10,11 @@ from forlife_insurance.models.cliente import Cliente
 from forlife_insurance.models.corretor import Corretor
 from forlife_insurance.models.dominios import (
     Cidade,
-    Estados,
-    EstatusApolice,
+    Estado,
     MeioPagamento,
     PeriodicidadePagamento,
-    Produtos,
+    Produto,
+    StatusApolice,
 )
 
 
@@ -36,11 +36,11 @@ def build_apolice_extract_stmt(
             Apolice.data_insercao.label("data_insercao"),
             Apolice.data_atualizacao.label("data_atualizacao"),
             Apolice.status_apolice_id.label("status_apolice_id"),
-            EstatusApolice.descricao.label("status_apolice_descricao"),
+            StatusApolice.descricao.label("status_apolice_descricao"),
             Apolice.periodicidade_id.label("periodicidade_id"),
             PeriodicidadePagamento.descricao.label("periodicidade_descricao"),
             Apolice.produto_id.label("produto_id"),
-            Produtos.descricao.label("produto_descricao"),
+            Produto.descricao.label("produto_descricao"),
             Apolice.meio_pagamento_id.label("meio_pagamento_id"),
             MeioPagamento.descricao.label("meio_pagamento_descricao"),
             Apolice.corretor_id.label("corretor_id"),
@@ -55,26 +55,26 @@ def build_apolice_extract_stmt(
             Cliente.data_nascimento.label("cliente_data_nascimento"),
             Cliente.cidade_id.label("cidade_id"),
             Cidade.descricao.label("cidade_descricao"),
-            Estados.estado_id.label("estado_id"),
-            Estados.uf.label("estado_uf"),
-            Estados.descricao.label("estado_descricao"),
+            Estado.estado_id.label("estado_id"),
+            Estado.uf.label("estado_uf"),
+            Estado.descricao.label("estado_descricao"),
         )
         .join(
-            EstatusApolice,
-            EstatusApolice.estatus_apolice_id == Apolice.status_apolice_id,
+            StatusApolice,
+            StatusApolice.status_apolice_id == Apolice.status_apolice_id,
         )
         .join(
             PeriodicidadePagamento,
             PeriodicidadePagamento.periodicidade_id == Apolice.periodicidade_id,
         )
-        .join(Produtos, Produtos.produto_id == Apolice.produto_id)
+        .join(Produto, Produto.produto_id == Apolice.produto_id)
         .join(
             MeioPagamento, MeioPagamento.meio_pagamento_id == Apolice.meio_pagamento_id
         )
         .join(Corretor, Corretor.corretor_id == Apolice.corretor_id)
         .join(Cliente, Cliente.cliente_id == Apolice.cliente_id)
         .join(Cidade, Cidade.cidade_id == Cliente.cidade_id)
-        .join(Estados, Estados.estado_id == Cidade.estado_id)
+        .join(Estado, Estado.estado_id == Cidade.estado_id)
         .order_by(Apolice.data_atualizacao, Apolice.apolice_id)
     )
 

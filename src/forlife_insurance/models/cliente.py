@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import date, datetime
 from typing import TYPE_CHECKING, Optional
 
@@ -8,6 +10,7 @@ from forlife_insurance.database.database import Base
 
 if TYPE_CHECKING:
     from forlife_insurance.models.apolice import Apolice
+    from forlife_insurance.models.dominios import Cidade
 
 
 class Cliente(Base):
@@ -28,6 +31,7 @@ class Cliente(Base):
     )
 
     cidade_id: Mapped[int] = mapped_column(
-        ForeignKey("cidades.cidade_id"), nullable=False
+        ForeignKey("cidade.cidade_id"), nullable=False
     )
-    apolice: Mapped[list[Apolice]] = relationship(back_populates="cliente")
+    cidade: Mapped[Cidade] = relationship(back_populates="cliente")
+    apolices: Mapped[list[Apolice]] = relationship(back_populates="cliente")

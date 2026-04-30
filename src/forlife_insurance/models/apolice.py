@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from datetime import datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -10,13 +12,13 @@ if TYPE_CHECKING:
     from forlife_insurance.models.cliente import Cliente
     from forlife_insurance.models.corretor import Corretor
     from forlife_insurance.models.dominios import (
-        EstatusApolice,
         MeioPagamento,
         PeriodicidadePagamento,
-        Produtos,
+        Produto,
+        StatusApolice,
     )
-    from forlife_insurance.models.parcelas import Parcelas
-    from forlife_insurance.models.sinistros import Sinistros
+    from forlife_insurance.models.parcelas import Parcela
+    from forlife_insurance.models.sinistros import Sinistro
 
 
 class Apolice(Base):
@@ -32,38 +34,37 @@ class Apolice(Base):
         DateTime, default=func.now(), onupdate=func.now()
     )
 
-    estatus_apolice: Mapped[EstatusApolice] = relationship(back_populates="apolice")
+    status_apolice: Mapped[StatusApolice] = relationship(back_populates="apolices")
     status_apolice_id: Mapped[int] = mapped_column(
-        ForeignKey("estatus_apolice.estatus_apolice_id"), nullable=False
+        ForeignKey("status_apolice.status_apolice_id"), nullable=False
     )
 
     periodicidade_pagamento: Mapped[PeriodicidadePagamento] = relationship(
-        back_populates="apolice"
+        back_populates="apolices"
     )
     periodicidade_id: Mapped[int] = mapped_column(
         ForeignKey("periodicidade_pagamento.periodicidade_id"), nullable=False
     )
 
-    produtos: Mapped[Produtos] = relationship(back_populates="apolice")
+    produto: Mapped[Produto] = relationship(back_populates="apolices")
     produto_id: Mapped[int] = mapped_column(
-        ForeignKey("produtos.produto_id"), nullable=False
+        ForeignKey("produto.produto_id"), nullable=False
     )
 
-    meio_pagamento: Mapped[MeioPagamento] = relationship(back_populates="apolice")
+    meio_pagamento: Mapped[MeioPagamento] = relationship(back_populates="apolices")
     meio_pagamento_id: Mapped[int] = mapped_column(
         ForeignKey("meio_pagamento.meio_pagamento_id"), nullable=False
     )
 
-    corretor: Mapped[Corretor] = relationship(back_populates="apolice")
+    corretor: Mapped[Corretor] = relationship(back_populates="apolices")
     corretor_id: Mapped[int] = mapped_column(
         ForeignKey("corretor.corretor_id"), nullable=False
     )
 
-    cliente: Mapped[Cliente] = relationship(back_populates="apolice")
+    cliente: Mapped[Cliente] = relationship(back_populates="apolices")
     cliente_id: Mapped[int] = mapped_column(
         ForeignKey("cliente.cliente_id"), nullable=False
     )
 
-    sinistros: Mapped[Optional[Sinistros]] = relationship(back_populates="apolice")
-
-    parcelas: Mapped[Parcelas] = relationship(back_populates="apolice")
+    sinistros: Mapped[list[Sinistro]] = relationship(back_populates="apolices")
+    parcelas: Mapped[list[Parcela]] = relationship(back_populates="apolices")

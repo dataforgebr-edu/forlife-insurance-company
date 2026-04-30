@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
-from .dominios import CidadesReponse
+from .dominios import CidadeResponse
 
 
 class BRPhone(PhoneNumber):
@@ -17,14 +17,14 @@ class ClienteBase(BaseModel):
     email: EmailStr
     telefone: BRPhone
     endereco: str
-    data_nascimento: datetime
+    data_nascimento: date
 
 
 class ClienteResponse(ClienteBase):
     cliente_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    cidade: CidadesReponse
+    cidade: CidadeResponse
 
     model_config = ConfigDict(from_attributes=True)
 

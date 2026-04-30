@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 from forlife_insurance.models.apolice import Apolice
 from forlife_insurance.models.cliente import Cliente
 from forlife_insurance.models.corretor import Corretor
-from forlife_insurance.models.parcelas import Parcelas
-from forlife_insurance.models.sinistros import Sinistros
+from forlife_insurance.models.parcelas import Parcela
+from forlife_insurance.models.sinistros import Sinistro
 from forlife_insurance.seed.bootstrap import PERIODICIDADE_MESES
 from forlife_insurance.seed.types import CreatedApolice, DomainReferences
 
@@ -85,9 +85,7 @@ def create_apolice(
     corretor: Corretor,
     refs: DomainReferences,
 ) -> CreatedApolice:
-    periodicidade_descricao = random.choice(
-        list(refs.periodicidade_por_descricao.keys())
-    )
+    periodicidade_descricao = random.choice(list(refs.periodicidade_por_descricao))
     periodicidade_meses = PERIODICIDADE_MESES[periodicidade_descricao]
 
     inicio_base = max(cliente.data_insercao, corretor.data_insercao)
@@ -101,7 +99,7 @@ def create_apolice(
         fim_vigencia=fim_vigencia,
         data_insercao=inicio_vigencia,
         data_atualizacao=inicio_vigencia,
-        status_apolice_id=random.choice(refs.estatus_apolice_ids),
+        status_apolice_id=random.choice(refs.status_apolice_ids),
         periodicidade_id=refs.periodicidade_por_descricao[periodicidade_descricao],
         produto_id=random.choice(refs.produto_ids),
         corretor_id=corretor.corretor_id,
@@ -129,7 +127,7 @@ def create_parcelas(
             apolice.fim_vigencia,
         )
         parcelas.append(
-            Parcelas(
+            Parcela(
                 valor=money(80, 1200),
                 data_emissao=data_emissao,
                 data_periodo=data_periodo,
@@ -166,12 +164,12 @@ def maybe_create_sinistro(
         datetime_end=fim_pagamento,
     )
 
-    sinistro = Sinistros(
+    sinistro = Sinistro(
         valor=money(1000, 50000),
         data_pagamento=data_pagamento,
         data_insercao=data_pagamento,
         data_atualizacao=data_pagamento,
-        estatus_sinistro_id=random.choice(refs.estatus_sinistro_ids),
+        status_sinistro_id=random.choice(refs.status_sinistro_ids),
         meio_pagamento_id=random.choice(refs.meio_pagamento_ids),
         apolice_id=apolice.apolice_id,
     )

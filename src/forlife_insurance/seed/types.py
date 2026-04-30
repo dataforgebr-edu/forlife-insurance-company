@@ -10,10 +10,10 @@ class DomainReferences:
     estado_ids: list[int]
     cidade_ids: list[int]
     produto_ids: list[int]
-    estatus_apolice_ids: list[int]
+    status_apolice_ids: list[int]
     periodicidade_por_descricao: dict[str, int]
     meio_pagamento_ids: list[int]
-    estatus_sinistro_ids: list[int]
+    status_sinistro_ids: list[int]
 
 
 @dataclass(frozen=True)

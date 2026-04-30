@@ -1,39 +1,39 @@
 # Extract App
 
-Aplicativo responsável por expor e executar extrações analíticas do domínio,
-pensadas para consumo por pipeline de data lake.
+Aplicativo responsavel por expor extracoes analiticas do dominio, pensadas para
+consumo por pipeline de data lake e jobs de ingestao.
 
-Este README cobre apenas o fluxo de extração. Para a visão geral do repositório,
+Este README cobre apenas o fluxo de extracao. Para a visao geral do repositorio,
 consulte [README.md](../../README.md).
 
 ## Objetivo
 
-Fornecer uma camada separada da API transacional para extração de dados em
-formato plano, incremental e orientado a ingestão analítica.
+Fornecer uma camada separada da API transacional para extracao de dados em
+formato plano, incremental e orientado a ingestao analitica.
 
-O foco aqui é:
+O foco aqui e:
 
-- consultas explícitas com projeção de colunas;
-- extração incremental por `data_atualizacao` e chave incremental;
-- payloads estáveis para carga em data lake;
+- consultas explicitamente projetadas com poucas colunas;
+- extracao incremental por `data_atualizacao` e chave incremental;
+- payloads estaveis para carga em lake ou stage;
 - consumo por API dedicada ou por job em lote.
 
-## Código Relacionado
+## Codigo Relacionado
 
-A implementação da camada de extração está em `src/forlife_insurance/extract`.
+A implementacao da camada de extracao esta em `src/forlife_insurance/extract`.
 
-Principais módulos:
+Principais modulos:
 
-- `app.py`: aplicação FastAPI dedicada à extração.
-- `routers/`: endpoints HTTP de extração.
-- `repositories/`: consultas SQLAlchemy voltadas à leitura analítica.
-- `schemas/`: modelos planos para serialização e ingestão.
-- `services/`: orquestração da extração.
-- `jobs/`: jobs de exportação para arquivos e pipelines.
+- `app.py`: aplicacao FastAPI dedicada a extracao.
+- `routers/`: endpoints HTTP de extracao.
+- `repositories/`: consultas SQLAlchemy voltadas a leitura analitica.
+- `schemas/`: modelos planos para serializacao e ingestao.
+- `services/`: orquestracao da extracao.
+- `jobs/`: jobs de exportacao para arquivos e pipelines.
 
 ## Endpoints
 
-A aplicação expõe atualmente a extração de apólices.
+A aplicacao expoe atualmente a extracao de apolices.
 
 ### Listagem em lote
 
@@ -41,10 +41,10 @@ A aplicação expõe atualmente a extração de apólices.
 GET /extract/apolices
 ```
 
-Parâmetros aceitos:
+Parametros aceitos:
 
 - `changed_since`: filtra registros alterados depois da data informada;
-- `last_apolice_id`: permite paginação incremental por chave;
+- `last_apolice_id`: permite paginacao incremental por chave;
 - `limit`: limita a quantidade de linhas retornadas.
 
 ### Streaming NDJSON
@@ -53,12 +53,12 @@ Parâmetros aceitos:
 GET /extract/apolices/stream
 ```
 
-Esse endpoint retorna uma linha JSON por registro, no formato NDJSON, o que é
-útil para pipelines que preferem consumo em streaming.
+Esse endpoint retorna uma linha JSON por registro, no formato NDJSON, util
+para pipelines que preferem consumo em streaming.
 
-## Job de Exportação
+## Job de Exportacao
 
-Além do endpoint HTTP, existe um job CLI para exportar apólices em arquivo
+Alem do endpoint HTTP, existe um job CLI para exportar apolices em arquivo
 NDJSON.
 
 Comando:
@@ -67,7 +67,7 @@ Comando:
 poetry run forlife-extract-apolices --output-path ./out/apolices.ndjson
 ```
 
-Parâmetros úteis:
+Parametros uteis:
 
 - `--changed-since 2026-04-01T00:00:00`
 - `--last-apolice-id 1000`
@@ -87,17 +87,17 @@ poetry run forlife-extract-apolices \
 - Pyenv `3.x`
 - Python `3.14.2`
 - Poetry `2.x`
-- PostgreSQL disponível localmente ou em container
+- PostgreSQL disponivel localmente ou em container
 
-## Preparação do Ambiente
+## Preparacao do Ambiente
 
-Defina a versão local do Python:
+Defina a versao local do Python:
 
 ```bash
 pyenv local 3.14.2
 ```
 
-Instale as dependências:
+Instale as dependencias:
 
 ```bash
 poetry install
@@ -109,7 +109,7 @@ Crie o arquivo `.env` a partir do exemplo:
 cp .env.example .env
 ```
 
-Preencha as variáveis de banco:
+Preencha as variaveis de banco:
 
 ```env
 DB_USER=postgres
@@ -121,22 +121,21 @@ DB_NAME=seguros
 
 ## Como Executar
 
-Subir a API de extração:
+Subir a API de extracao:
 
 ```bash
 poetry run uvicorn forlife_insurance.extract.app:app --reload
 ```
 
-Executar o job de exportação:
+Executar o job de exportacao:
 
 ```bash
 poetry run forlife-extract-apolices --output-path ./out/apolices.ndjson
 ```
 
-## Observações de Arquitetura
+## Observacoes de Arquitetura
 
-- A camada `extract` é separada da API transacional.
-- Os schemas de extração são planos e orientados a ingestão.
-- O consumo ideal aqui é incremental e com paginação por cursor ou watermark.
-- A mesma lógica de consulta é reutilizada entre endpoint HTTP e job CLI.
-
+- A camada `extract` e separada da API transacional.
+- Os schemas de extracao sao planos e orientados a ingestao.
+- O consumo ideal aqui e incremental e com paginacao por cursor ou watermark.
+- A mesma logica de consulta e reutilizada entre endpoint HTTP e job CLI.

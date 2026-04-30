@@ -2,38 +2,38 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, PositiveFloat
 
-from .apolice import ApoliceReponse
-from .dominios import EstatusSinistroReponse, MeioPagamentoReponse
+from .apolice import ApoliceResponse
+from .dominios import MeioPagamentoResponse, StatusSinistroResponse
 
 
-class SinistrosBase(BaseModel):
+class SinistroBase(BaseModel):
     valor: PositiveFloat
     data_pagamento: datetime
 
 
-class SinistrosResponse(SinistrosBase):
+class SinistroResponse(SinistroBase):
     data_insercao: datetime
     data_atualizacao: datetime
-    estatus_sinistro: EstatusSinistroReponse
-    meio_pagamento: MeioPagamentoReponse
-    apolice: ApoliceReponse
+    status_sinistro: StatusSinistroResponse
+    meio_pagamento: MeioPagamentoResponse
+    apolice: ApoliceResponse
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class SinistrosSumaryResponse(SinistrosBase):
+class SinistroSummaryResponse(SinistroBase):
     data_insercao: datetime
     data_atualizacao: datetime
-    estatus_sinistro: EstatusSinistroReponse
-    meio_pagamento: MeioPagamentoReponse
+    status_sinistro: StatusSinistroResponse
+    meio_pagamento: MeioPagamentoResponse
     apolice_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class SinistrosCreate(SinistrosBase):
+class SinistroCreate(SinistroBase):
     pass
 
 
-class SinistrosUpdate(BaseModel):
+class SinistroUpdate(BaseModel):
     pass

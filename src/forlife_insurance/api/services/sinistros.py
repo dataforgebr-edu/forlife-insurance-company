@@ -1,14 +1,14 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from forlife_insurance.models.sinistros import Sinistros
+from forlife_insurance.models.sinistros import Sinistro
 
 
 def get_sinistros(db: Session):
-    return db.scalars(select(Sinistros)).all()
+    return db.scalars(select(Sinistro)).all()
 
 
 def get_sinistro(db: Session, sinistro_id: int):
     return db.scalars(
-        select(Sinistros).where(Sinistros.sinistro_id == sinistro_id)
+        select(Sinistro).where(Sinistro.sinistro_id == sinistro_id)
     ).first()

@@ -5,48 +5,48 @@ class DominiosBase(BaseModel):
     descricao: str
 
 
-class ProdutoReponse(DominiosBase):
+class ProdutoResponse(DominiosBase):
     produto_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class EstatusApoliceReponse(DominiosBase):
-    estatus_apolice_id: int
+class StatusApoliceResponse(DominiosBase):
+    status_apolice_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class PeriodicidadePagamentoReponse(DominiosBase):
+class PeriodicidadePagamentoResponse(DominiosBase):
     periodicidade_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class MeioPagamentoReponse(DominiosBase):
+class MeioPagamentoResponse(DominiosBase):
     meio_pagamento_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class EstatusSinistroReponse(DominiosBase):
-    estatus_sinistro_id: int
+class StatusSinistroResponse(DominiosBase):
+    status_sinistro_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class EstadosBase(DominiosBase):
+class EstadoBase(DominiosBase):
     uf: str
 
 
-class EstadosReponse(EstadosBase):
+class EstadoResponse(EstadoBase):
     estado_id: int
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class CidadesReponse(DominiosBase):
+class CidadeResponse(DominiosBase):
     cidade_id: int
-    estados: EstadosReponse
+    estado: EstadoResponse
 
     model_config = ConfigDict(from_attributes=True)

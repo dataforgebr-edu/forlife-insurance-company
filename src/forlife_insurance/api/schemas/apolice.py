@@ -5,10 +5,10 @@ from pydantic import BaseModel, ConfigDict
 from .cliente import ClienteResponse
 from .corretor import CorretorResponse
 from .dominios import (
-    EstatusApoliceReponse,
-    MeioPagamentoReponse,
-    PeriodicidadePagamentoReponse,
-    ProdutoReponse,
+    MeioPagamentoResponse,
+    PeriodicidadePagamentoResponse,
+    ProdutoResponse,
+    StatusApoliceResponse,
 )
 
 
@@ -19,14 +19,14 @@ class ApoliceBase(BaseModel):
     fim_vigencia: datetime
 
 
-class ApoliceReponse(ApoliceBase):
+class ApoliceResponse(ApoliceBase):
     apolice_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    estatus_apolice: EstatusApoliceReponse
-    periodicidade_pagamento: PeriodicidadePagamentoReponse
-    produtos: ProdutoReponse
-    meio_pagamento: MeioPagamentoReponse
+    status_apolice: StatusApoliceResponse
+    periodicidade_pagamento: PeriodicidadePagamentoResponse
+    produto: ProdutoResponse
+    meio_pagamento: MeioPagamentoResponse
     cliente: ClienteResponse
     corretor: CorretorResponse
 

@@ -4,8 +4,8 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -487,
-    "scrollLeft": -139,
+    "scrollTop": 0,
+    "scrollLeft": -499,
     "zoomLevel": 1,
     "show": 431,
     "database": 4,
@@ -205,7 +205,7 @@
       },
       "v4HSNNA31D9kEO0xCN_W1": {
         "id": "v4HSNNA31D9kEO0xCN_W1",
-        "name": "sinistros",
+        "name": "sinistro",
         "comment": "tabela de pagamento dos benefícios em caso de sisnistro",
         "columnIds": [
           "2lPWAeTd-bGTxRKOde1BP",
@@ -248,8 +248,8 @@
       },
       "ZlUxRXOxUrr-EZKQHpQNz": {
         "id": "ZlUxRXOxUrr-EZKQHpQNz",
-        "name": "produtos",
-        "comment": "tabela com tipos de produtos vendidos",
+        "name": "produto",
+        "comment": "tabela com tipos de produto vendidos",
         "columnIds": [
           "iXG16JeWy4X65I2-6DVQJ",
           "OJR-6rLbg1xy6OoSfme41"
@@ -266,7 +266,7 @@
           "y": 396,
           "zIndex": 415,
           "widthName": 60,
-          "widthComment": 210,
+          "widthComment": 205,
           "color": ""
         },
         "meta": {
@@ -302,8 +302,8 @@
       },
       "ieioRM9FlnGXHLh2lgxCX": {
         "id": "ieioRM9FlnGXHLh2lgxCX",
-        "name": "estatus_apolice",
-        "comment": "tabela com os estatus da apólice",
+        "name": "status_apolice",
+        "comment": "tabela com os staus da apólice",
         "columnIds": [
           "vtBCtlr6pjanhK0yWco5x",
           "qUFwN8VMUaqS83GEiYCRD"
@@ -316,18 +316,18 @@
           "x": 4.2578,
           "y": 520.2783,
           "zIndex": 489,
-          "widthName": 82,
-          "widthComment": 174,
+          "widthName": 76,
+          "widthComment": 164,
           "color": ""
         },
         "meta": {
-          "updateAt": 1776066526640,
+          "updateAt": 1777559491817,
           "createAt": 1776065731706
         }
       },
       "AVxdl3UO2MVyTOMTMaKBb": {
         "id": "AVxdl3UO2MVyTOMTMaKBb",
-        "name": "estatus_sinistro",
+        "name": "status_sinistro",
         "comment": "tabela com as fases de um sinistro",
         "columnIds": [
           "Bku92SEGDuNRBW0n2jPEJ",
@@ -342,7 +342,7 @@
           "x": 1468.1922,
           "y": 620.6591,
           "zIndex": 573,
-          "widthName": 83,
+          "widthName": 76,
           "widthComment": 183,
           "color": ""
         },
@@ -353,7 +353,7 @@
       },
       "GL-ZePkBgbise9HFwRhNY": {
         "id": "GL-ZePkBgbise9HFwRhNY",
-        "name": "parcelas",
+        "name": "parcela",
         "comment": "tabela com o pagamento dos prêmios da apólice",
         "columnIds": [
           "NrLNdyN1Tc9ALFM16ovJ-",
@@ -418,8 +418,8 @@
       },
       "eMjQYuRJM3e1Zycaw0XWB": {
         "id": "eMjQYuRJM3e1Zycaw0XWB",
-        "name": "estados",
-        "comment": "tabela com os estados brasileiros",
+        "name": "estado",
+        "comment": "tabela com os estado brasileiros",
         "columnIds": [
           "a1ZZ7BbYBMU70OI89uwMv",
           "H5k01fDxaA0AFvNglQxPZ",
@@ -435,7 +435,7 @@
           "y": 8.3453,
           "zIndex": 815,
           "widthName": 60,
-          "widthComment": 177,
+          "widthComment": 172,
           "color": ""
         },
         "meta": {
@@ -445,8 +445,8 @@
       },
       "rk8arFEV6e-PEv8d4gQaP": {
         "id": "rk8arFEV6e-PEv8d4gQaP",
-        "name": "cidades",
-        "comment": "tabelas com as cidades do Brasil",
+        "name": "cidade",
+        "comment": "tabelas com as cidade do Brasil",
         "columnIds": [
           "zKenxIK-wHKfg4t4HLDu9",
           "__uFKHGZA9wJp3y5GQwwR",
@@ -463,7 +463,7 @@
           "y": 20.2126,
           "zIndex": 820,
           "widthName": 60,
-          "widthComment": 172,
+          "widthComment": 167,
           "color": ""
         },
         "meta": {
@@ -1496,14 +1496,14 @@
       "vtBCtlr6pjanhK0yWco5x": {
         "id": "vtBCtlr6pjanhK0yWco5x",
         "tableId": "ieioRM9FlnGXHLh2lgxCX",
-        "name": "estatus_apolice_id",
+        "name": "status_apolice_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
         "options": 10,
         "ui": {
           "keys": 1,
-          "widthName": 97,
+          "widthName": 91,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
@@ -1536,7 +1536,7 @@
       "nUIMtUj72OnaotmWi3M_x": {
         "id": "nUIMtUj72OnaotmWi3M_x",
         "tableId": "AVxdl3UO2MVyTOMTMaKBb",
-        "name": "estatus_sinistro_id",
+        "name": "status_sinistro_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
@@ -1576,7 +1576,7 @@
       "UV5EJUB-UdxleZ0f6AU4-": {
         "id": "UV5EJUB-UdxleZ0f6AU4-",
         "tableId": "v4HSNNA31D9kEO0xCN_W1",
-        "name": "estatus_sinistro_id",
+        "name": "status_sinistro_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
@@ -1596,14 +1596,14 @@
       "Bku92SEGDuNRBW0n2jPEJ": {
         "id": "Bku92SEGDuNRBW0n2jPEJ",
         "tableId": "AVxdl3UO2MVyTOMTMaKBb",
-        "name": "estatus_sinistro_id",
+        "name": "status_sinistro_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
         "options": 10,
         "ui": {
           "keys": 1,
-          "widthName": 97,
+          "widthName": 91,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
@@ -1616,14 +1616,14 @@
       "yStL43qgfAuliwZnvmVgJ": {
         "id": "yStL43qgfAuliwZnvmVgJ",
         "tableId": "v4HSNNA31D9kEO0xCN_W1",
-        "name": "estatus_sinistro_id",
+        "name": "status_sinistro_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
         "options": 8,
         "ui": {
           "keys": 2,
-          "widthName": 97,
+          "widthName": 91,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
@@ -2136,14 +2136,14 @@
       "uPUHPCDm2LR_-fS8iatjX": {
         "id": "uPUHPCDm2LR_-fS8iatjX",
         "tableId": "9thgLb2wrkngRvx0QKsmQ",
-        "name": "estatus_apolice_id",
+        "name": "status_apolice_id",
         "comment": "",
         "dataType": "INTEGER",
         "default": "",
         "options": 8,
         "ui": {
           "keys": 2,
-          "widthName": 97,
+          "widthName": 91,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
@@ -2325,7 +2325,7 @@
           "columnIds": [
             "Bku92SEGDuNRBW0n2jPEJ"
           ],
-          "x": 1669.1922,
+          "x": 1666.1922,
           "y": 724.6591,
           "direction": 8
         },
@@ -2397,34 +2397,6 @@
         "meta": {
           "updateAt": 1776066542572,
           "createAt": 1776066542572
-        }
-      },
-      "ZHXSmSdtH6J7zXvTPvFnN": {
-        "id": "ZHXSmSdtH6J7zXvTPvFnN",
-        "identification": false,
-        "relationshipType": 16,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "9thgLb2wrkngRvx0QKsmQ",
-          "columnIds": [
-            "zvOBRRESLwOUxsUU-s-Ka"
-          ],
-          "x": 1247.5783000000001,
-          "y": 662.2133,
-          "direction": 2
-        },
-        "end": {
-          "tableId": "v4HSNNA31D9kEO0xCN_W1",
-          "columnIds": [
-            "MW8yQs5Of0bcGp2iy6N-C"
-          ],
-          "x": 1529.0257,
-          "y": 978.2615,
-          "direction": 1
-        },
-        "meta": {
-          "updateAt": 1776066647558,
-          "createAt": 1776066603517
         }
       },
       "BjPwrLDmVyQgdu7eQ3cXG": {
@@ -2605,7 +2577,7 @@
           "columnIds": [
             "vtBCtlr6pjanhK0yWco5x"
           ],
-          "x": 406.2578,
+          "x": 400.2578,
           "y": 572.2783,
           "direction": 2
         },
@@ -2649,34 +2621,6 @@
         "meta": {
           "updateAt": 1776636810580,
           "createAt": 1776636810580
-        }
-      },
-      "wOqQ5NYtX2h5K5mnNF1lm": {
-        "id": "wOqQ5NYtX2h5K5mnNF1lm",
-        "identification": false,
-        "relationshipType": 16,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "rk8arFEV6e-PEv8d4gQaP",
-          "columnIds": [
-            "zKenxIK-wHKfg4t4HLDu9"
-          ],
-          "x": 1361.0054,
-          "y": 116.2126,
-          "direction": 2
-        },
-        "end": {
-          "tableId": "oc2WXKvhlx4jxK0cadsyk",
-          "columnIds": [
-            "PkNI20iTa9JiWYGPhQ3BX"
-          ],
-          "x": 1382.3816,
-          "y": 228.1375,
-          "direction": 4
-        },
-        "meta": {
-          "updateAt": 1776636831839,
-          "createAt": 1776636831839
         }
       },
       "IloA69FmGKFZvf2eFWQ--": {

@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 
 from forlife_insurance.models.dominios import (
     Cidade,
-    Estados,
-    EstatusApolice,
-    EstatusSinistro,
+    Estado,
     MeioPagamento,
     PeriodicidadePagamento,
-    Produtos,
+    Produto,
+    StatusApolice,
+    StatusSinistro,
 )
 from forlife_insurance.seed.types import DomainReferences
 
@@ -32,14 +32,14 @@ def bootstrap_domain_data(session: Session) -> None:
     _insert_if_empty(
         session,
         [
-            Estados(uf="SP", descricao="Sao Paulo"),
-            Estados(uf="RJ", descricao="Rio de Janeiro"),
-            Estados(uf="MG", descricao="Minas Gerais"),
-            Estados(uf="PR", descricao="Parana"),
-            Estados(uf="RS", descricao="Rio Grande do Sul"),
-            Estados(uf="BA", descricao="Bahia"),
+            Estado(uf="SP", descricao="Sao Paulo"),
+            Estado(uf="RJ", descricao="Rio de Janeiro"),
+            Estado(uf="MG", descricao="Minas Gerais"),
+            Estado(uf="PR", descricao="Parana"),
+            Estado(uf="RS", descricao="Rio Grande do Sul"),
+            Estado(uf="BA", descricao="Bahia"),
         ],
-        Estados.estado_id,
+        Estado.estado_id,
     )
 
     if not session.scalar(select(Cidade.cidade_id).limit(1)):
@@ -54,7 +54,7 @@ def bootstrap_domain_data(session: Session) -> None:
         estado_ids_por_uf = {
             uf: estado_id
             for estado_id, uf in session.execute(
-                select(Estados.estado_id, Estados.uf)
+                select(Estado.estado_id, Estado.uf)
             ).all()
         }
         session.add_all(
@@ -70,21 +70,21 @@ def bootstrap_domain_data(session: Session) -> None:
     _insert_if_empty(
         session,
         [
-            Produtos(descricao="Seguro de Vida"),
-            Produtos(descricao="Seguro Auto"),
-            Produtos(descricao="Seguro Residencial"),
+            Produto(descricao="Seguro de Vida"),
+            Produto(descricao="Seguro Auto"),
+            Produto(descricao="Seguro Residencial"),
         ],
-        Produtos.produto_id,
+        Produto.produto_id,
     )
 
     _insert_if_empty(
         session,
         [
-            EstatusApolice(descricao="Ativa"),
-            EstatusApolice(descricao="Cancelada"),
-            EstatusApolice(descricao="Vencida"),
+            StatusApolice(descricao="Ativa"),
+            StatusApolice(descricao="Cancelada"),
+            StatusApolice(descricao="Vencida"),
         ],
-        EstatusApolice.estatus_apolice_id,
+        StatusApolice.status_apolice_id,
     )
 
     _insert_if_empty(
@@ -112,11 +112,11 @@ def bootstrap_domain_data(session: Session) -> None:
     _insert_if_empty(
         session,
         [
-            EstatusSinistro(descricao="Avisado"),
-            EstatusSinistro(descricao="Em Analise"),
-            EstatusSinistro(descricao="Pago"),
+            StatusSinistro(descricao="Avisado"),
+            StatusSinistro(descricao="Em Analise"),
+            StatusSinistro(descricao="Pago"),
         ],
-        EstatusSinistro.estatus_sinistro_id,
+        StatusSinistro.status_sinistro_id,
     )
 
     session.commit()
@@ -133,17 +133,17 @@ def load_domain_references(session: Session) -> DomainReferences:
         ).all()
     }
     return DomainReferences(
-        estado_ids=session.scalars(select(Estados.estado_id)).all(),
+        estado_ids=session.scalars(select(Estado.estado_id)).all(),
         cidade_ids=session.scalars(select(Cidade.cidade_id)).all(),
-        produto_ids=session.scalars(select(Produtos.produto_id)).all(),
-        estatus_apolice_ids=session.scalars(
-            select(EstatusApolice.estatus_apolice_id)
+        produto_ids=session.scalars(select(Produto.produto_id)).all(),
+        status_apolice_ids=session.scalars(
+            select(StatusApolice.status_apolice_id)
         ).all(),
         periodicidade_por_descricao=periodicidade_por_descricao,
         meio_pagamento_ids=session.scalars(
             select(MeioPagamento.meio_pagamento_id)
         ).all(),
-        estatus_sinistro_ids=session.scalars(
-            select(EstatusSinistro.estatus_sinistro_id)
+        status_sinistro_ids=session.scalars(
+            select(StatusSinistro.status_sinistro_id)
         ).all(),
     )

@@ -2,40 +2,40 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, PositiveFloat
 
-from .apolice import ApoliceReponse
-from .dominios import MeioPagamentoReponse
+from .apolice import ApoliceResponse
+from .dominios import MeioPagamentoResponse
 
 
-class ParcelasBase(BaseModel):
+class ParcelaBase(BaseModel):
     valor: PositiveFloat
     data_emissao: datetime
     data_periodo: datetime
     data_pagamento: datetime
 
 
-class ParcelasResponse(ParcelasBase):
+class ParcelaResponse(ParcelaBase):
     parcela_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    apolice: ApoliceReponse
-    meio_pagamento_parcela: MeioPagamentoReponse
+    apolice: ApoliceResponse
+    meio_pagamento: MeioPagamentoResponse
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class ParcelasSumaryResponse(ParcelasBase):
+class ParcelaSummaryResponse(ParcelaBase):
     parcela_id: int
     data_insercao: datetime
     data_atualizacao: datetime
     apolice_id: int
-    meio_pagamento_parcela: MeioPagamentoReponse
+    meio_pagamento: MeioPagamentoResponse
 
     model_config = ConfigDict(from_attributes=True)
 
 
-class ParcelasCreate(ParcelasBase):
+class ParcelaCreate(ParcelaBase):
     pass
 
 
-class ParcelasUpdate(BaseModel):
+class ParcelaUpdate(BaseModel):
     pass

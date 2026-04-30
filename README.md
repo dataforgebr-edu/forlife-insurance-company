@@ -1,25 +1,28 @@
 # Forlife Insurance Company
 
-Projeto de dados para uma seguradora que vende apólices nos segmentos de vida,
-automóvel e residência.
+Projeto de dados para uma seguradora que vende apolices nos segmentos de vida,
+automovel e residencia.
 
-O repositório concentra a base transacional do domínio e os aplicativos que
-operam sobre ela. Hoje o foco está em dois fluxos principais:
+O repositorio concentra a base transacional do dominio e os aplicativos que
+operam sobre ela. Hoje o foco esta em tres fluxos principais:
 
-- geração de dados sintéticos coerentes com as regras de negócio da seguradora;
-- exposição desses dados por meio de uma API.
+- geracao de dados sinteticos coerentes com as regras de negocio da seguradora;
+- exposicao desses dados por meio de uma API transacional;
+- extracao incremental para consumo analitico e jobs de ingestao.
 
-## Visão Geral
+## Visao Geral
 
 O projeto foi organizado como um monorepo simples com um pacote Python
-compartilhado e documentação separada por aplicativo.
+compartilhado e documentacao separada por aplicativo.
 
-- `seed`: cria e popula a base PostgreSQL com dados sintéticos.
-- `api`: expõe os dados do projeto para consumo por aplicações, estudos e
-  integrações.
+- `seed`: cria e popula a base PostgreSQL com dados sinteticos.
+- `api`: expõe os dados do projeto para consumo por aplicacoes, estudos e
+  integracoes.
+- `extract`: disponibiliza consultas planas e incrementais para pipeline e
+  data lake.
 
-Os dois apps compartilham os mesmos módulos de domínio, conexão com banco e
-modelos relacionais, evitando duplicação de regras e mantendo uma única fonte
+Os tres apps compartilham os mesmos modulos de dominio, conexao com banco e
+modelos relacionais, evitando duplicacao de regras e mantendo uma unica fonte
 de verdade para a estrutura dos dados.
 
 ## Estrutura
@@ -36,6 +39,8 @@ forlife-insurance-company/
       README.md
     api/
       README.md
+    extract/
+      README.md
 
   src/
     forlife_insurance/
@@ -43,34 +48,44 @@ forlife-insurance-company/
       database/
       models/
       seed/
+      extract/
       assets/
 ```
 
 ## Package Python
 
-O código compartilhado fica em `src/forlife_insurance`.
+O codigo compartilhado fica em `src/forlife_insurance`.
 
-- `core/`: configuração da aplicação e leitura de variáveis de ambiente.
-- `database/`: engine, sessões e base do SQLAlchemy.
-- `models/`: definição das tabelas e relacionamentos.
-- `seed/`: implementação do processo de carga sintética.
+- `core/`: configuracao da aplicacao e leitura de variaveis de ambiente.
+- `database/`: engine, sessoes e base do SQLAlchemy.
+- `models/`: definicao das tabelas e relacionamentos.
+- `seed/`: implementacao do processo de carga sintetica.
+- `extract/`: implementacao da camada de extracao analitica e dos jobs de
+  exportacao.
 - `assets/`: artefatos de apoio, incluindo o diagrama ERD.
 
 ## Aplicativos
 
 ### Seed
 
-Responsável por criar a estrutura relacional e popular o banco com dados
-sintéticos consistentes com o domínio de seguros.
+Responsavel por criar a estrutura relacional e popular o banco com dados
+sinteticos consistentes com o dominio de seguros.
 
-Documentação: [apps/seed/README.md](apps/seed/README.md)
+Documentacao: [apps/seed/README.md](apps/seed/README.md)
 
 ### API
 
-Responsável por expor os dados do projeto por HTTP, reaproveitando os modelos e
-módulos compartilhados do pacote principal.
+Responsavel por expor os dados do projeto por HTTP, reaproveitando os modelos e
+modulos compartilhados do pacote principal.
 
-Documentação: [apps/api/README.md](apps/api/README.md)
+Documentacao: [apps/api/README.md](apps/api/README.md)
+
+### Extract
+
+Responsavel por expor consultas planas, streaming NDJSON e jobs CLI para
+consumo analitico e orquestracao.
+
+Documentacao: [apps/extract/README.md](apps/extract/README.md)
 
 ## Configurando o Ambiente
 
@@ -79,29 +94,29 @@ Requisitos atuais:
 - Pyenv `3.x`
 - Python `3.14.2`
 - Poetry `2.x`
-- PostgreSQL disponível localmente ou em container
+- PostgreSQL disponivel localmente ou em container
 
-Defina a versão local do Python:
+Defina a versao local do Python:
 
 ```bash
 pyenv local 3.14.2
 ```
 
-Instalação das dependências:
+Instalacao das dependencias:
 
 ```bash
 poetry install
 ```
 
-A execução dos módulos fica documentada em cada aplicativo.
+A execucao dos modulos fica documentada em cada aplicativo.
 
 ## Modelo de Dados
 
-O modelo ERD do projeto está em:
+O modelo ERD do projeto esta em:
 
 ```text
 src/forlife_insurance/assets/database_diagrama.erd.json
 ```
 
 Esse artefato representa a base relacional compartilhada pelos aplicativos do
-repositório.
+repositorio.

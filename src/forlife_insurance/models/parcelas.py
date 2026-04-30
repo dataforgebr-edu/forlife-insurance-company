@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -8,10 +10,11 @@ from forlife_insurance.database.database import Base
 
 if TYPE_CHECKING:
     from forlife_insurance.models.apolice import Apolice
+    from forlife_insurance.models.dominios import MeioPagamento
 
 
-class Parcelas(Base):
-    __tablename__ = "parcelas"
+class Parcela(Base):
+    __tablename__ = "parcela"
 
     parcela_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     valor: Mapped[float] = mapped_column(Numeric(precision=10, scale=2))
@@ -30,4 +33,5 @@ class Parcelas(Base):
         ForeignKey("meio_pagamento.meio_pagamento_id"), nullable=False
     )
 
-    parcelas: Mapped[list[Apolice]] = relationship(back_populates="parcelas")
+    apolice: Mapped[Apolice] = relationship(back_populates="parcelas")
+    meio_pagamento: Mapped[MeioPagamento] = relationship(back_populates="parcelas")

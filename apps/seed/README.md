@@ -1,26 +1,26 @@
 # Seed App
 
-Aplicativo responsável por criar e popular a base PostgreSQL com dados
-sintéticos coerentes com as regras de negócio da seguradora.
+Aplicativo responsavel por criar e popular a base PostgreSQL com dados
+sinteticos coerentes com as regras de negocio da seguradora.
 
-Este README cobre apenas o fluxo de seed. Para a visão geral do repositório,
+Este README cobre apenas o fluxo de seed. Para a visao geral do repositorio,
 consulte [README.md](../../README.md).
 
 ## Objetivo
 
 Gerar uma base relacional para estudos de modelagem, engenharia de dados,
-qualidade de dados e consumo analítico, preservando coerência entre clientes,
-corretores, apólices, parcelas e sinistros.
+qualidade de dados e consumo analitico, preservando coerencia entre clientes,
+corretores, apolices, parcelas e sinistros.
 
-## Código Relacionado
+## Codigo Relacionado
 
-O seed está implementado em `src/forlife_insurance/seed`.
+O seed esta implementado em `src/forlife_insurance/seed`.
 
-Principais módulos:
+Principais modulos:
 
-- `bootstrap.py`: carga inicial das tabelas de domínio.
-- `factories.py`: geração de dados sintéticos.
-- `runner.py`: orquestração da execução do seed.
+- `bootstrap.py`: carga inicial das tabelas de dominio.
+- `factories.py`: geracao de dados sinteticos.
+- `runner.py`: orquestracao da execucao do seed.
 - `types.py`: estruturas auxiliares para o fluxo de carga.
 
 ## Requisitos
@@ -28,17 +28,17 @@ Principais módulos:
 - Pyenv `3.x`
 - Python `3.14.2`
 - Poetry `2.x`
-- PostgreSQL disponível localmente ou em container
+- PostgreSQL disponivel localmente ou em container
 
-## Preparação do Ambiente
+## Preparacao do Ambiente
 
-Defina a versão local do Python:
+Defina a versao local do Python:
 
 ```bash
 pyenv local 3.14.2
 ```
 
-Instale as dependências:
+Instale as dependencias:
 
 ```bash
 poetry install
@@ -50,7 +50,7 @@ Crie o arquivo `.env` a partir do exemplo:
 cp .env.example .env
 ```
 
-Preencha as variáveis:
+Preencha as variaveis:
 
 ```env
 DB_USER=postgres
@@ -76,7 +76,7 @@ Ou:
 psql -U postgres -c "CREATE DATABASE seguros;"
 ```
 
-As tabelas são criadas automaticamente durante a execução do seed.
+As tabelas sao criadas automaticamente durante a execucao do seed.
 
 ## Como Executar
 
@@ -86,41 +86,41 @@ Comando principal:
 poetry run forlife-seed
 ```
 
-Execução única:
+Execucao unica:
 
 ```bash
 poetry run forlife-seed --mode once --batch-size 20
 ```
 
-Execução contínua:
+Execucao continua:
 
 ```bash
 poetry run forlife-seed --mode continuous --batch-size 20 --interval-seconds 30
 ```
 
-Execução reproduzível:
+Execucao reproduzivel:
 
 ```bash
 poetry run forlife-seed --mode once --batch-size 20 --seed 42
 ```
 
-## Regras de Negócio
+## Regras de Negocio
 
-- As tabelas de domínio são carregadas na primeira execução.
-- Antes de uma venda de apólice, deve existir um corretor cadastrado.
-- Antes de uma venda de apólice, deve existir um cliente cadastrado.
-- Toda apólice possui cliente, corretor, produto, periodicidade e meio de
-  pagamento.
-- A data de início de vigência da apólice respeita a existência prévia do
+- As tabelas de dominio sao carregadas na primeira execucao.
+- Antes de uma venda de apolice, deve existir um corretor cadastrado.
+- Antes de uma venda de apolice, deve existir um cliente cadastrado.
+- Toda apolice possui cliente, corretor, produto, periodicidade, status e meio
+  de pagamento.
+- A data de inicio de vigencia da apolice respeita a existencia previa do
   cliente e do corretor.
-- Um cliente pode ter uma ou várias apólices.
-- Um corretor pode vender nenhuma, uma ou várias apólices.
-- As parcelas são geradas dentro do período de vigência da apólice.
-- Nem toda apólice possui sinistro.
+- Um cliente pode ter uma ou varias apolices.
+- Um corretor pode vender nenhuma, uma ou varias apolices.
+- As parcelas sao geradas dentro do periodo de vigencia da apolice.
+- Nem toda apolice possui sinistro.
 
 ## Modelo ERD
 
-O diagrama-fonte do modelo relacional utilizado pelo seed está em:
+O diagrama-fonte do modelo relacional utilizado pelo seed esta em:
 
 ```text
 src/forlife_insurance/assets/database_diagrama.erd.json
@@ -136,7 +136,7 @@ erDiagram
     VARCHAR email
     VARCHAR telefone
     VARCHAR endereco
-    DATETIME data_nascimento
+    DATE data_nascimento
     DATETIME data_insercao
     DATETIME data_atualizacao
     INTEGER cidade_id FK
@@ -165,10 +165,10 @@ erDiagram
     INTEGER corretor_id FK
     INTEGER cliente_id FK
     INTEGER meio_pagamento_id FK
-    INTEGER estatus_apolice_id FK
+    INTEGER status_apolice_id FK
   }
 
-  parcelas {
+  parcela {
     INTEGER parcela_id PK
     FLOAT valor
     DATETIME data_emissao
@@ -180,30 +180,30 @@ erDiagram
     INTEGER apolice_id FK
   }
 
-  sinistros {
+  sinistro {
     INTEGER sinistro_id PK
     FLOAT valor
     DATETIME data_pagamento
     DATETIME data_insercao
     DATETIME data_atualizacao
-    INTEGER estatus_sinistro_id FK
+    INTEGER status_sinistro_id FK
     INTEGER meio_pagamento_id FK
     INTEGER apolice_id FK
   }
 
-  estados {
+  estado {
     INTEGER estado_id PK
     VARCHAR uf
     VARCHAR descricao
   }
 
-  cidades {
+  cidade {
     INTEGER cidade_id PK
     VARCHAR descricao
     INTEGER estado_id FK
   }
 
-  produtos {
+  produto {
     INTEGER produto_id PK
     VARCHAR descricao
   }
@@ -218,45 +218,45 @@ erDiagram
     VARCHAR descricao
   }
 
-  estatus_apolice {
-    INTEGER estatus_apolice_id PK
+  status_apolice {
+    INTEGER status_apolice_id PK
     VARCHAR descricao
   }
 
-  estatus_sinistro {
-    INTEGER estatus_sinistro_id PK
+  status_sinistro {
+    INTEGER status_sinistro_id PK
     VARCHAR descricao
   }
 
-  estados ||--o{ cidades : possui
-  cidades ||--o{ cliente : localiza
-  estados ||--o{ corretor : habilita
+  estado ||--o{ cidade : possui
+  cidade ||--o{ cliente : localiza
+  estado ||--o{ corretor : habilita
 
   cliente ||--o{ apolice : contrata
   corretor ||--o{ apolice : vende
-  produtos ||--o{ apolice : classifica
+  produto ||--o{ apolice : classifica
   periodicidade_pagamento ||--o{ apolice : define
   meio_pagamento ||--o{ apolice : cobra
-  estatus_apolice ||--o{ apolice : status
+  status_apolice ||--o{ apolice : status
 
-  apolice ||--o{ parcelas : gera
-  meio_pagamento ||--o{ parcelas : quita
+  apolice ||--o{ parcela : gera
+  meio_pagamento ||--o{ parcela : quita
 
-  apolice ||--o{ sinistros : origina
-  meio_pagamento ||--o{ sinistros : paga
-  estatus_sinistro ||--o{ sinistros : status
+  apolice ||--o{ sinistro : origina
+  meio_pagamento ||--o{ sinistro : paga
+  status_sinistro ||--o{ sinistro : status
 ```
 
-## Comandos Úteis
+## Comandos Uteis
 
-Formatação:
+Formatacao:
 
 ```bash
 poetry run black src
 poetry run isort src
 ```
 
-Análise de segurança:
+Analise de seguranca:
 
 ```bash
 poetry run bandit -r src -lll

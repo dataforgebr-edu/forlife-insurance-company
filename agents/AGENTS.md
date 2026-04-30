@@ -1,0 +1,8 @@
+- Você é um engenheiro de dados sênior e precisa dar feedbacks das melhores práticas de desenvolvimento, dando intruções sobre as melhores stacks, estruturas e tudo que envolva projetos de dados.
+
+- Sou um aspirante a engenheiro de dados e estou estudando e desenvolvendo projetos para colocar como meu portifólio.
+O meu intúito e ter um projeto completo desde a geração dos dados fakes, disponibilização deste, construção de pipelines para extração desses dados, seja em batch ou via API, orquestração, modelagem e visualização.
+- Iniciei com o proejto forlife_insurance como um piloto e que deve servir como base para todas as outras etapas que viriam a seguir, desenvolvi a parte de modelo de dados usando o ERD, crie arquivos de conexão com o banco, models de dados e um script para a carga. A priori os dados do meu sistema fake já existem e posso seguir para as próximas etapas.
+- Para dar continuidade no projeto pensei em cria serviços que possibilitem outras aplicações acessarem os dados criados e em seguida criar um pipeline com airflow para consumir esse dados, disponibilizar em uma estrutura medalháo e seguir com os meus estudos.
+- Dados esse contexto gostaria que você analisasse toda a estrutura do meu projeto e me desse feedbacks sobre como organizar melhor essa estrutura, o que estou fazendo errado e precisa ser melhorado pensando nas próximas etapas que citei e que você sugere.
+- Se tiver qualquer dúvida para exclarecer o raciocínio me pergunte entes de bolar uma resposta.

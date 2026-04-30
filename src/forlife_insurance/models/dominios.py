@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey, Integer, String
@@ -7,48 +9,52 @@ from forlife_insurance.database.database import Base
 
 if TYPE_CHECKING:
     from forlife_insurance.models.apolice import Apolice
-    from forlife_insurance.models.parcelas import Parcelas
-    from forlife_insurance.models.sinistros import Sinistros
+    from forlife_insurance.models.cliente import Cliente
+    from forlife_insurance.models.corretor import Corretor
+    from forlife_insurance.models.parcelas import Parcela
+    from forlife_insurance.models.sinistros import Sinistro
 
 
-class Estados(Base):
-    __tablename__ = "estados"
+class Estado(Base):
+    __tablename__ = "estado"
 
     estado_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     uf: Mapped[str] = mapped_column(String(2))
     descricao: Mapped[str] = mapped_column(String(50))
 
-    cidades: Mapped[list[Cidade]] = relationship(back_populates="estados")
+    cidades: Mapped[list[Cidade]] = relationship(back_populates="estado")
+    corretores: Mapped[list[Corretor]] = relationship(back_populates="estado")
 
 
 class Cidade(Base):
-    __tablename__ = "cidades"
+    __tablename__ = "cidade"
 
     cidade_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
-    estados: Mapped[Estados] = relationship(back_populates="cidades")
+    estado: Mapped[Estado] = relationship(back_populates="cidades")
     estado_id: Mapped[int] = mapped_column(
-        ForeignKey("estados.estado_id"), nullable=False
+        ForeignKey("estado.estado_id"), nullable=False
     )
+    clientes: Mapped[list[Cliente]] = relationship(back_populates="cidade")
 
 
-class Produtos(Base):
-    __tablename__ = "produtos"
+class Produto(Base):
+    __tablename__ = "produto"
 
     produto_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
-    apolice: Mapped[list[Apolice]] = relationship(back_populates="produtos")
+    apolices: Mapped[list[Apolice]] = relationship(back_populates="produto")
 
 
-class EstatusApolice(Base):
-    __tablename__ = "estatus_apolice"
+class StatusApolice(Base):
+    __tablename__ = "status_apolice"
 
-    estatus_apolice_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    status_apolice_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
-    apolice: Mapped[list[Apolice]] = relationship(back_populates="estatus_apolice")
+    apolices: Mapped[list[Apolice]] = relationship(back_populates="status_apolice")
 
 
 class PeriodicidadePagamento(Base):
@@ -57,11 +63,7 @@ class PeriodicidadePagamento(Base):
     periodicidade_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
-    apolice: Mapped[list[Apolice]] = relationship(
-        back_populates="periodicidade_pagamento"
-    )
-
-    sinistro: Mapped[list[Sinistros]] = relationship(
+    apolices: Mapped[list[Apolice]] = relationship(
         back_populates="periodicidade_pagamento"
     )
 
@@ -72,15 +74,17 @@ class MeioPagamento(Base):
     meio_pagamento_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
 
-    apolice: Mapped[list[Apolice]] = relationship(back_populates="meio_pagamento")
+    apolices: Mapped[list[Apolice]] = relationship(back_populates="meio_pagamento")
 
-    sinistro: Mapped[list[Sinistros]] = relationship(back_populates="meio_pagamento")
+    sinistros: Mapped[list[Sinistro]] = relationship(back_populates="meio_pagamento")
 
-    parcela: Mapped[list[Parcelas]] = relationship(back_populates="meio_pagamento")
+    parcelas: Mapped[list[Parcela]] = relationship(back_populates="meio_pagamento")
 
 
-class EstatusSinistro(Base):
-    __tablename__ = "estatus_sinistro"
+class StatusSinistro(Base):
+    __tablename__ = "status_sinistro"
 
-    estatus_sinistro_id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    status_sinistro_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     descricao: Mapped[str] = mapped_column(String(100))
+
+    sinistros: Mapped[list[Sinistro]] = relationship(back_populates="status_sinistro")

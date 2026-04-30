@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -8,11 +10,11 @@ from forlife_insurance.database.database import Base
 
 if TYPE_CHECKING:
     from forlife_insurance.models.apolice import Apolice
-    from forlife_insurance.models.dominios import EstatusSinistro, MeioPagamento
+    from forlife_insurance.models.dominios import MeioPagamento, StatusSinistro
 
 
-class Sinistros(Base):
-    __tablename__ = "sinistros"
+class Sinistro(Base):
+    __tablename__ = "sinistro"
 
     sinistro_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     valor: Mapped[float] = mapped_column(Numeric(precision=10, scale=2))
@@ -22,9 +24,9 @@ class Sinistros(Base):
         DateTime, default=func.now(), onupdate=func.now()
     )
 
-    estatus_sinistro: Mapped[EstatusSinistro] = relationship(back_populates="sinistros")
-    estatus_sinistro_id: Mapped[int] = mapped_column(
-        ForeignKey("estatus_sinistro.estatus_sinistro_id"), nullable=False
+    status_sinistro: Mapped[StatusSinistro] = relationship(back_populates="sinistros")
+    status_sinistro_id: Mapped[int] = mapped_column(
+        ForeignKey("status_sinistro.status_sinistro_id"), nullable=False
     )
 
     meio_pagamento: Mapped[MeioPagamento] = relationship(back_populates="sinistros")

@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic_br import CNPJMask
 
-from .dominios import EstadosReponse
+from .dominios import EstadoResponse
 
 
 class CorretorBase(BaseModel):
@@ -16,7 +16,7 @@ class CorretorResponse(CorretorBase):
     corretor_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    estado: EstadosReponse
+    estado: EstadoResponse
 
     model_config = ConfigDict(from_attributes=True)
 
