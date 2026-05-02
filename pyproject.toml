@@ -7,6 +7,14 @@ license = "MIT"
 readme = "README.md"
 package-mode = false
 
+[tool.poetry.workspace]
+members = [
+    "projects/forlife-insurance-api",
+    "projects/forlife-insurance-core",
+    "projects/forlife-insurance-extract",
+    "projects/forlife-insurance-seed"
+]
+
 [tool.poetry.dependencies]
 python = ">=3.14,<4.0"
 
