@@ -2,8 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 .vscode
-.skills
-.agents
+*.skills
+*.agents
+*.lock
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

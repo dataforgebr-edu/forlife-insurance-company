@@ -7,7 +7,7 @@ Projeto independente da API transacional do domínio Forlife.
 - Expor endpoints HTTP para consumo de aplicações.
 - Definir contratos Pydantic ricos para respostas transacionais.
 - Consultar os models ORM do `forlife-insurance-core`.
-- Manter a camada transacional separada da camada analítica de extract.
+- Manter a camada transacional separada da camada analítica do `extract`.
 
 ## Estrutura
 
@@ -15,18 +15,34 @@ Projeto independente da API transacional do domínio Forlife.
 src/forlife_insurance_api/
   app.py
   routers/
+    __init__.py
+    apolice.py
   schemas/
+    __init__.py
+    apolice.py
+    cliente.py
+    corretor.py
+    dominios.py
+    parcelas.py
+    sinistros.py
   services/
+    __init__.py
+    apolice.py
+    parcelas.py
+    sinistros.py
 ```
 
-## Preparação
+## Instalação
 
 ```bash
+cd projects/forlife-insurance-api
 poetry install
 cp .env.example .env
 ```
 
-Configure o banco:
+> O `forlife-insurance-core` é instalado automaticamente como dependência local.
+
+## Variáveis de Ambiente
 
 ```env
 DB_USER=postgres
@@ -51,10 +67,12 @@ GET /apolices/{apolice_id}
 
 ## Dependências
 
-- `forlife-insurance-core`
-- FastAPI
-- Uvicorn
-- Pydantic
+- `forlife-insurance-core` (path local)
+- FastAPI >= 0.115
+- Uvicorn >= 0.34
+- Pydantic >= 2.13
+- pydantic-extra-types
+- pydantic-br
 
 ## Regra de Arquitetura
 

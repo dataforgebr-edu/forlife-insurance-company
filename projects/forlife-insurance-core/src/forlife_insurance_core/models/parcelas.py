@@ -32,5 +32,5 @@ class Parcela(Base):
         ForeignKey("meio_pagamento.meio_pagamento_id"), nullable=False
     )
 
-    apolice: Mapped[Apolice] = relationship(back_populates="parcelas")
+    apolices: Mapped[Apolice] = relationship(back_populates="parcelas")
     meio_pagamento: Mapped[MeioPagamento] = relationship(back_populates="parcelas")

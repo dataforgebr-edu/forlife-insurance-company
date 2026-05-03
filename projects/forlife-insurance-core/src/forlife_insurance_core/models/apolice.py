@@ -65,5 +65,5 @@ class Apolice(Base):
         ForeignKey("cliente.cliente_id"), nullable=False
     )
 
-    sinistros: Mapped[list[Sinistro]] = relationship(back_populates="apolices")
     parcelas: Mapped[list[Parcela]] = relationship(back_populates="apolices")
+    sinistros: Mapped[Sinistro] = relationship(back_populates="apolice")

@@ -29,7 +29,7 @@ def parse_args() -> argparse.Namespace:
         description="Seed de dados para o domínio de seguros."
     )
     parser.add_argument("--mode", choices=["once", "continuous"], default="once")
-    parser.add_argument("--batch-size", type=int, default=10)
+    parser.add_argument("--batch-size", type=int, default=5)
     parser.add_argument("--interval-seconds", type=int, default=20)
     parser.add_argument("--seed", type=int, default=None)
     return parser.parse_args()
