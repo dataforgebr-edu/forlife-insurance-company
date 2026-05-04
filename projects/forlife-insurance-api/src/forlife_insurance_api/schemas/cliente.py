@@ -1,6 +1,6 @@
 ﻿from datetime import date, datetime
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from .dominios import CidadeResponse
@@ -25,7 +25,7 @@ class ClienteResponse(ClienteBase):
     cliente_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    cidade_schema: CidadeResponse
+    cidade: CidadeResponse = Field(validation_alias="cidade")
 
     model_config = ConfigDict(from_attributes=True)
 

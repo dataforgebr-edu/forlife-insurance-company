@@ -11,7 +11,7 @@ def _apolice_options():
         selectinload(Apolice.periodicidade_pagamento),
         selectinload(Apolice.produto),
         selectinload(Apolice.meio_pagamento),
-        selectinload(Apolice.cliente).selectinload(Cliente.cidade_back),
+        selectinload(Apolice.cliente).selectinload(Cliente.cidade),
         selectinload(Apolice.corretor).selectinload(Corretor.estado),
     )
 

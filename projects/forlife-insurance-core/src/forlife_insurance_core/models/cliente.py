@@ -32,5 +32,5 @@ class Cliente(Base):
     cidade_id: Mapped[int] = mapped_column(
         ForeignKey("cidade.cidade_id"), nullable=False
     )
-    cidade_back: Mapped[Cidade] = relationship(back_populates="cliente_back")
+    cidade: Mapped[Cidade] = relationship(back_populates="cliente")
     apolices: Mapped[list[Apolice]] = relationship(back_populates="cliente")
