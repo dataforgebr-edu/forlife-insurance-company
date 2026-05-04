@@ -16,6 +16,7 @@ class ClienteBase(BaseModel):
     nome: str
     email: EmailStr
     telefone: BRPhone
+    telefone: str
     endereco: str
     data_nascimento: date
 
@@ -24,7 +25,7 @@ class ClienteResponse(ClienteBase):
     cliente_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    cidade: CidadeResponse
+    cidade_schema: CidadeResponse
 
     model_config = ConfigDict(from_attributes=True)
 

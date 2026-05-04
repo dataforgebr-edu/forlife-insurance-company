@@ -8,8 +8,10 @@ router = APIRouter(prefix="/apolices", tags=["apolices"])
 
 
 @router.get("", response_model=list[ApoliceResponse])
-def list_apolices_endpoint(db: Session = Depends(get_db)) -> list[ApoliceResponse]:
-    return get_apolices(db)
+def list_apolices_endpoint(
+    db: Session = Depends(get_db), skip: int = 0, limit: int = 10
+) -> list[ApoliceResponse]:
+    return get_apolices(db, skip, limit)
 
 
 @router.get("/{apolice_id}", response_model=ApoliceResponse)

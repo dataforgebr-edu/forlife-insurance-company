@@ -11,13 +11,19 @@ def _apolice_options():
         selectinload(Apolice.periodicidade_pagamento),
         selectinload(Apolice.produto),
         selectinload(Apolice.meio_pagamento),
-        selectinload(Apolice.cliente).selectinload(Cliente.cidade),
+        selectinload(Apolice.cliente).selectinload(Cliente.cidade_back),
         selectinload(Apolice.corretor).selectinload(Corretor.estado),
     )
 
 
-def get_apolices(db: Session):
-    stmt = select(Apolice).options(*_apolice_options()).order_by(Apolice.apolice_id)
+def get_apolices(db: Session, skip: int, limit: int):
+    stmt = (
+        select(Apolice)
+        .options(*_apolice_options())
+        .offset(skip)
+        .limit(limit)
+        .order_by(Apolice.apolice_id)
+    )
     return db.scalars(stmt).all()
 
 
