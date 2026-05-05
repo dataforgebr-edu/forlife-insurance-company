@@ -1,8 +1,9 @@
-﻿from datetime import datetime
+from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, PositiveFloat
 
-from .apolice import ApoliceResponse
+from .apolice import ApoliceSumaryResponse
 from .dominios import MeioPagamentoResponse
 
 
@@ -17,16 +18,6 @@ class ParcelaResponse(ParcelaBase):
     parcela_id: int
     data_insercao: datetime
     data_atualizacao: datetime
-    apolice: ApoliceResponse
-    meio_pagamento: MeioPagamentoResponse
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class ParcelaSummaryResponse(ParcelaBase):
-    parcela_id: int
-    data_insercao: datetime
-    data_atualizacao: datetime
     apolice_id: int
     meio_pagamento: MeioPagamentoResponse
 
@@ -34,8 +25,13 @@ class ParcelaSummaryResponse(ParcelaBase):
 
 
 class ParcelaCreate(ParcelaBase):
-    pass
+    apolice_id: int
+    meio_pagamento_id: int
 
 
 class ParcelaUpdate(BaseModel):
-    pass
+    valor: Optional[PositiveFloat] = None
+    data_emissao: Optional[datetime] = None
+    data_periodo: Optional[datetime] = None
+    data_pagamento: Optional[datetime] = None
+    meio_pagamento_id: Optional[int] = None

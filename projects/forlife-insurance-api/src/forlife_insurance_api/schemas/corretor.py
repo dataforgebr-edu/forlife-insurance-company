@@ -1,4 +1,5 @@
-﻿from datetime import datetime
+from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic_br import CNPJMask
@@ -22,8 +23,11 @@ class CorretorResponse(CorretorBase):
 
 
 class CorretorCreate(CorretorBase):
-    pass
+    estado_id: int
 
 
 class CorretorUpdate(BaseModel):
-    pass
+    nome: Optional[str] = None
+    cnpj: Optional[CNPJMask] = None
+    email: Optional[EmailStr] = None
+    estado_id: Optional[int] = None

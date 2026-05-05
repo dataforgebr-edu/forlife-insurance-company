@@ -1,4 +1,5 @@
-﻿from datetime import date, datetime
+from datetime import date, datetime
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
@@ -16,7 +17,6 @@ class ClienteBase(BaseModel):
     nome: str
     email: EmailStr
     telefone: BRPhone
-    telefone: str
     endereco: str
     data_nascimento: date
 
@@ -31,8 +31,13 @@ class ClienteResponse(ClienteBase):
 
 
 class ClienteCreate(ClienteBase):
-    pass
+    cidade_id: int
 
 
 class ClienteUpdate(BaseModel):
-    pass
+    nome: Optional[str] = None
+    email: Optional[EmailStr] = None
+    telefone: Optional[BRPhone] = None
+    endereco: Optional[str] = None
+    data_nascimento: Optional[date] = None
+    cidade_id: Optional[int] = None
