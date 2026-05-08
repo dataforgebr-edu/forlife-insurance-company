@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from forlife_insurance_api.schemas.apolice import (
     ApoliceCreate,
+    ApoliceResponse,
     ApoliceSumaryResponse,
     ApoliceUpdate,
 )
@@ -24,7 +25,7 @@ def list_apolices_endpoint(
     return get_apolices(db, skip, limit)
 
 
-@router.get("/{apolice_id}", response_model=ApoliceSumaryResponse)
+@router.get("/{apolice_id}", response_model=ApoliceResponse)
 def get_apolice_endpoint(
     apolice_id: int = Path(..., ge=1),
     db: Session = Depends(get_db),
