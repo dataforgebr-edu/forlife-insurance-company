@@ -66,7 +66,7 @@ def create_cliente(session: Session, cidade_ids: list[int]) -> Cliente:
     cliente = Cliente(
         nome=nome,
         email=random_email(nome),
-        telefone=faker.msisdn()[:12],
+        telefone=faker.msisdn()[:13],
         endereco=faker.street_address(),
         cidade_id=random.choice(cidade_ids),
         data_nascimento=faker.date_of_birth(minimum_age=18, maximum_age=85),
