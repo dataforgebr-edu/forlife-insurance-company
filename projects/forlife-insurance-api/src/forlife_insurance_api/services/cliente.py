@@ -44,12 +44,3 @@ def update_cliente(db: Session, cliente_id: int, data: ClienteUpdate):
         setattr(cliente, key, value)
     db.commit()
     return get_cliente(db, cliente_id)
-
-
-def delete_cliente(db: Session, cliente_id: int) -> bool:
-    cliente = db.get(Cliente, cliente_id)
-    if cliente is None:
-        return False
-    db.delete(cliente)
-    db.commit()
-    return True

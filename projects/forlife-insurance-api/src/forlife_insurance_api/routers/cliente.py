@@ -6,7 +6,6 @@ from forlife_insurance_api.schemas.cliente import (
 )
 from forlife_insurance_api.services.cliente import (
     create_cliente,
-    delete_cliente,
     get_cliente,
     get_clientes,
     update_cliente,
@@ -54,14 +53,3 @@ def update_cliente_endpoint(
             status_code=status.HTTP_404_NOT_FOUND, detail="Cliente não encontrado."
         )
     return cliente
-
-
-@router.delete("/{cliente_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_cliente_endpoint(
-    cliente_id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
-):
-    if not delete_cliente(db, cliente_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Cliente não encontrado."
-        )

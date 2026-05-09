@@ -15,9 +15,9 @@ forlife-insurance-core
   |-- config.py (variáveis de ambiente)
   |-- assets/ (ERD)
   |
-  ├── forlife-insurance-seed    (carga de dados sintéticos)
-  ├── forlife-insurance-api     (API transacional)
-  └── forlife-insurance-extract (API e job analítico)
+  ├── forlife-insurance-seed  (carga de dados sintéticos)
+  ├── forlife-insurance-api   (API transacional)
+  └── forlife-insurance-ui    (interface Streamlit)
 ```
 
 ## Filosofia de Monorepo
@@ -91,31 +91,30 @@ Responsabilidades:
 - services de consulta voltados a produto;
 - tratamento de erros HTTP.
 
-### Extract
+### UI
 
-Projeto responsável por expor dados para consumo analítico e pipelines.
+Projeto responsável por fornecer interface visual ao portfólio, integrando seed → banco → API → UI.
 
 Responsabilidades:
 
-- rotas FastAPI de extração;
-- schemas planos e estáveis;
-- consultas incrementais por watermark e chave;
-- job CLI para exportação NDJSON.
+- páginas Streamlit para cada entidade (Apólices, Clientes, Corretores, Sinistros, Parcelas);
+- CRUD completo (criar e editar) via HTTP para a API transacional;
+- visualização tabular dos registros;
+- cliente HTTP encapsulado em `services/api_client.py`.
 
-Entrypoint CLI declarado em `pyproject.toml`:
+Entrypoint local:
 
-```toml
-[tool.poetry.scripts]
-forlife-extract-apolices = "forlife_insurance_extract.jobs.apolice:main"
+```bash
+cd projects/forlife-insurance-ui
+poetry run streamlit run app.py
 ```
 
 ## Regras de Dependência
 
-- `core` não importa `seed`, `api` nem `extract`.
-- `seed`, `api` e `extract` podem importar `core`.
-- `api` não importa `extract`.
-- `extract` não importa `api`.
-- `seed` não importa `api` nem `extract`.
+- `core` não importa `seed`, `api` nem `ui`.
+- `seed` e `api` podem importar `core`.
+- `ui` não importa `core` diretamente — consome a `api` via HTTP.
+- `seed` não importa `api` nem `ui`.
 - Projetos novos devem ser criados dentro de `projects/`.
 - Dev deps (black, isort, bandit, pytest) não devem ser declaradas nos sub-projetos — ficam apenas na raiz.
 
@@ -149,8 +148,6 @@ poetry run task all          # install + lint + security + test
 
 1. Criar testes por projeto com pytest e fixtures compartilhadas.
 2. Adicionar CI (GitHub Actions) com os alvos `lint-check`, `security` e `test`.
-3. Criar contratos de dados formais para o `extract` (ex: JSON Schema ou Pandera).
-4. Integrar o `extract` a um orquestrador como Airflow ou Prefect.
-5. Evoluir a saída analítica para camadas raw, silver e gold.
-6. Publicar o `core` em um registry privado (PyPI interno ou GitHub Packages)
+3. Evoluir a UI com autenticação e controle de acesso por perfil.
+4. Publicar o `core` em um registry privado (PyPI interno ou GitHub Packages)
    quando o número de consumidores crescer.

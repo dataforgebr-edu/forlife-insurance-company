@@ -52,12 +52,3 @@ def update_apolice(db: Session, apolice_id: int, data: ApoliceUpdate):
         setattr(apolice, key, value)
     db.commit()
     return get_apolice(db, apolice_id)
-
-
-def delete_apolice(db: Session, apolice_id: int) -> bool:
-    apolice = db.get(Apolice, apolice_id)
-    if apolice is None:
-        return False
-    db.delete(apolice)
-    db.commit()
-    return True

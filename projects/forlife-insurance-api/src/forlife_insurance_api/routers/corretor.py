@@ -6,7 +6,6 @@ from forlife_insurance_api.schemas.corretor import (
 )
 from forlife_insurance_api.services.corretor import (
     create_corretor,
-    delete_corretor,
     get_corretor,
     get_corretores,
     update_corretor,
@@ -54,14 +53,3 @@ def update_corretor_endpoint(
             status_code=status.HTTP_404_NOT_FOUND, detail="Corretor não encontrado."
         )
     return corretor
-
-
-@router.delete("/{corretor_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_corretor_endpoint(
-    corretor_id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
-):
-    if not delete_corretor(db, corretor_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Corretor não encontrado."
-        )

@@ -6,7 +6,6 @@ from forlife_insurance_api.schemas.parcelas import (
 )
 from forlife_insurance_api.services.parcelas import (
     create_parcela,
-    delete_parcela,
     get_parcela,
     get_parcelas,
     update_parcela,
@@ -57,14 +56,3 @@ def update_parcela_endpoint(
             status_code=status.HTTP_404_NOT_FOUND, detail="Parcela não encontrada."
         )
     return parcela
-
-
-@router.delete("/{parcela_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_parcela_endpoint(
-    parcela_id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
-):
-    if not delete_parcela(db, parcela_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Parcela não encontrada."
-        )

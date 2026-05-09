@@ -6,7 +6,6 @@ from forlife_insurance_api.schemas.sinistros import (
 )
 from forlife_insurance_api.services.sinistros import (
     create_sinistro,
-    delete_sinistro,
     get_sinistro,
     get_sinistros,
     update_sinistro,
@@ -57,14 +56,3 @@ def update_sinistro_endpoint(
             status_code=status.HTTP_404_NOT_FOUND, detail="Sinistro não encontrado."
         )
     return sinistro
-
-
-@router.delete("/{sinistro_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_sinistro_endpoint(
-    sinistro_id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
-):
-    if not delete_sinistro(db, sinistro_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Sinistro não encontrado."
-        )

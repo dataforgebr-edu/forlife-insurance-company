@@ -7,7 +7,6 @@ from forlife_insurance_api.schemas.apolice import (
 )
 from forlife_insurance_api.services.apolice import (
     create_apolice,
-    delete_apolice,
     get_apolice,
     get_apolices,
     update_apolice,
@@ -57,14 +56,3 @@ def update_apolice_endpoint(
             status_code=status.HTTP_404_NOT_FOUND, detail="Apólice não encontrada."
         )
     return apolice
-
-
-@router.delete("/{apolice_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_apolice_endpoint(
-    apolice_id: int = Path(..., ge=1),
-    db: Session = Depends(get_db),
-):
-    if not delete_apolice(db, apolice_id):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Apólice não encontrada."
-        )

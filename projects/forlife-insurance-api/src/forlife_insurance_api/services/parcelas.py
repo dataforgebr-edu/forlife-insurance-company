@@ -45,12 +45,3 @@ def update_parcela(db: Session, parcela_id: int, data: ParcelaUpdate):
         setattr(parcela, key, value)
     db.commit()
     return get_parcela(db, parcela_id)
-
-
-def delete_parcela(db: Session, parcela_id: int) -> bool:
-    parcela = db.get(Parcela, parcela_id)
-    if parcela is None:
-        return False
-    db.delete(parcela)
-    db.commit()
-    return True

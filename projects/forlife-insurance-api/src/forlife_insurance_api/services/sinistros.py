@@ -48,12 +48,3 @@ def update_sinistro(db: Session, sinistro_id: int, data: SinistroUpdate):
         setattr(sinistro, key, value)
     db.commit()
     return get_sinistro(db, sinistro_id)
-
-
-def delete_sinistro(db: Session, sinistro_id: int) -> bool:
-    sinistro = db.get(Sinistro, sinistro_id)
-    if sinistro is None:
-        return False
-    db.delete(sinistro)
-    db.commit()
-    return True

@@ -43,12 +43,3 @@ def update_corretor(db: Session, corretor_id: int, data: CorretorUpdate):
         setattr(corretor, key, value)
     db.commit()
     return get_corretor(db, corretor_id)
-
-
-def delete_corretor(db: Session, corretor_id: int) -> bool:
-    corretor = db.get(Corretor, corretor_id)
-    if corretor is None:
-        return False
-    db.delete(corretor)
-    db.commit()
-    return True
