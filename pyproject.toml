@@ -1,14 +1,34 @@
 [tool.poetry]
-name = "forlife-insurance-workspace"
+name = "forlife-insurance-company"
 version = "0.1.0"
-description = "Workspace dos projetos Forlife Insurance"
+description = "Monorepo flat da plataforma Forlife Insurance"
 authors = ["Rodrigo Silva <dataforge.br@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-package-mode = false
+packages = [
+    { include = "forlife_insurance_core", from = "projects" },
+    { include = "forlife_insurance_api",  from = "projects" },
+    { include = "forlife_insurance_seed", from = "projects" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.12,<4.0"
+sqlalchemy = ">=2.0.49,<3.0.0"
+python-dotenv = ">=1.0.0,<2.0.0"
+psycopg2-binary = ">=2.9.12,<3.0.0"
+fastapi = ">=0.115.12,<1.0.0"
+uvicorn = ">=0.34.0,<1.0.0"
+pydantic = ">=2.13.3,<3.0.0"
+pydantic-extra-types = { version = ">=2.11.1,<3.0.0", extras = ["phonenumbers"] }
+pydantic-br = ">=1.1.0,<2.0.0"
+email-validator = "^2.3.0"
+faker = ">=37.11.0,<38.0.0"
+streamlit = ">=1.35.0"
+httpx = ">=0.27.0"
+pandas = ">=2.2.0"
+
+[tool.poetry.scripts]
+forlife-seed = "forlife_insurance_seed.runner:main"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=24.3.0,<25.0.0"
@@ -19,12 +39,19 @@ pytest = ">=8.0.0,<9.0.0"
 taskipy = ">=1.13.0,<2.0.0"
 
 [tool.taskipy.tasks]
-install      = { cmd = "poetry install --directory projects/forlife-insurance-core && poetry install --directory projects/forlife-insurance-api && poetry install --directory projects/forlife-insurance-seed && poetry install --directory projects/forlife-insurance-ui", help = "Instala todos os sub-projetos" }
-lint         = { cmd = "cd projects/forlife-insurance-core && poetry run black src && poetry run isort src && cd ../forlife-insurance-api && poetry run black src && poetry run isort src && cd ../forlife-insurance-seed && poetry run black src && poetry run isort src && cd ../forlife-insurance-ui && poetry run black app.py pages services && poetry run isort app.py pages services", help = "Formata o código com black e isort em todos os projetos" }
-lint-check   = { cmd = "cd projects/forlife-insurance-core && poetry run black --check src && poetry run isort --check src && cd ../forlife-insurance-api && poetry run black --check src && poetry run isort --check src && cd ../forlife-insurance-seed && poetry run black --check src && poetry run isort --check src && cd ../forlife-insurance-ui && poetry run black --check app.py pages services && poetry run isort --check app.py pages services", help = "Verifica formatação sem alterar arquivos (útil em CI)" }
-security     = { cmd = "cd projects/forlife-insurance-core && poetry run bandit -r src -lll && cd ../forlife-insurance-api && poetry run bandit -r src -lll && cd ../forlife-insurance-seed && poetry run bandit -r src -lll && cd ../forlife-insurance-ui && poetry run bandit -r app.py pages services -lll", help = "Análise de segurança com bandit em todos os projetos" }
-test         = { cmd = "cd projects/forlife-insurance-core && poetry run pytest && cd ../forlife-insurance-api && poetry run pytest && cd ../forlife-insurance-seed && poetry run pytest", help = "Roda pytest em todos os projetos" }
-all          = { cmd = "poetry run task install && poetry run task lint && poetry run task security && poetry run task test", help = "Executa install + lint + security + test" }
+lint       = { cmd = "black projects && isort projects",                       help = "Formata código" }
+lint-check = { cmd = "black --check projects && isort --check projects",       help = "Verifica formatação (CI)" }
+security   = { cmd = "bandit -r projects -lll",                                help = "Scan de segurança" }
+test       = { cmd = "pytest",                                                 help = "Roda testes" }
+api        = { cmd = "uvicorn forlife_insurance_api.app:app --reload",         help = "Sobe a API" }
+ui         = { cmd = "streamlit run projects/forlife_insurance_ui/app.py",     help = "Sobe o Streamlit" }
+seed       = { cmd = "forlife-seed --mode once --batch-size 20",              help = "Seed do banco" }
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["projects"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
