@@ -1,90 +1,65 @@
-# Forlife Insurance Workspace
+# Forlife Insurance Company
 
-Workspace de estudos de engenharia de dados para o domínio de seguros da
-Forlife. O código foi organizado em projetos independentes dentro de
-`projects/`, cada um com pacote, dependências e entrypoints próprios.
+Monorepo de portfólio para o domínio de seguros de vida. Quatro pacotes Python convivem em um único ambiente virtual gerenciado pelo Poetry a partir da raiz.
 
-## Projetos
+## Pacotes
 
-| Projeto | Responsabilidade | Caminho |
-| --- | --- | --- |
-| Core | Biblioteca compartilhada com configuração, banco, ORM models e ERD. | `projects/forlife-insurance-core` |
-| Seed | Geração e carga de dados sintéticos no PostgreSQL. | `projects/forlife-insurance-seed` |
-| API | API transacional para consumo de aplicações. | `projects/forlife-insurance-api` |
-| Extract | API e job de extração analítica incremental. | `projects/forlife-insurance-extract` |
+| Pacote | Responsabilidade |
+|---|---|
+| `forlife_insurance_core` | Biblioteca compartilhada: ORM models, configuração de banco, session management |
+| `forlife_insurance_api` | FastAPI transacional — CRUD de apólices, clientes, corretores, sinistros e parcelas |
+| `forlife_insurance_seed` | Gerador Faker para seed sintético do PostgreSQL |
+| `forlife_insurance_ui` | Dashboard Streamlit para visualização dos dados |
+
+Hierarquia de dependência: **Core ← API, Seed** (UI acessa a API via HTTP).
 
 ## Estrutura
 
-```text
-forlife-insurance-workspace/
-├── pyproject.toml                    # Dev deps compartilhadas (black, isort, bandit, pytest)
-├── .pre-commit-config.yaml
+```
+forlife-insurance-company/
+├── pyproject.toml          # único — consolida todas as dependências e tasks
+├── poetry.lock
+├── .env                    # variáveis de conexão com o banco
 ├── .python-version
-├── docs/
-│   ├── architecture.md
-│   └── development.md
+├── .pre-commit-config.yaml
 └── projects/
-    ├── forlife-insurance-core/
-    │   └── src/forlife_insurance_core/
-    ├── forlife-insurance-seed/
-    │   └── src/forlife_insurance_seed/
-    ├── forlife-insurance-api/
-    │   └── src/forlife_insurance_api/
-    └── forlife-insurance-extract/
-        └── src/forlife_insurance_extract/
+    ├── forlife_insurance_core/
+    │   ├── config.py
+    │   ├── database/
+    │   └── models/
+    ├── forlife_insurance_api/
+    │   ├── app.py
+    │   ├── routers/
+    │   ├── schemas/
+    │   └── services/
+    ├── forlife_insurance_seed/
+    │   ├── runner.py
+    │   ├── bootstrap.py
+    │   └── factories.py
+    └── forlife_insurance_ui/
+        ├── app.py
+        ├── pages/
+        └── services/
 ```
-
-## Dependências Entre Projetos
-
-```text
-forlife-insurance-core
-  <- forlife-insurance-seed
-  <- forlife-insurance-api
-  <- forlife-insurance-extract
-```
-
-Boas práticas aplicadas no monorepo:
-
-- O `core` concentra somente código compartilhado de domínio e infraestrutura.
-- `seed`, `api` e `extract` dependem do `core` via `path` dependency com `develop = true`.
-- Cada projeto possui seu próprio `pyproject.toml` e ambiente virtual independente.
-- As ferramentas de qualidade (black, isort, bandit, pytest) são gerenciadas centralmente na raiz.
-- Os contratos da API e da extração ficam nos projetos consumidores.
-- Os entrypoints CLI ficam declarados apenas nos projetos que os executam.
 
 ## Pré-requisitos
 
-- Python >= 3.12
+- Python 3.12 (gerenciado via `.python-version`)
 - [Poetry](https://python-poetry.org/) >= 2.0
 - PostgreSQL em execução
 
-## Instalação Rápida (todos os projetos)
+## Instalação
 
 ```bash
-# 1. Instala as dev deps e o taskipy na raiz
+# Clona e instala tudo de uma vez
+git clone <repo-url>
+cd forlife-insurance-company
 poetry install
-
-# 2. Instala todos os sub-projetos
-poetry run task install
-```
-
-Ou projeto a projeto:
-
-```bash
-cd projects/forlife-insurance-core && poetry install
-cd projects/forlife-insurance-api  && poetry install
 ```
 
 ## Variáveis de Ambiente
 
-Crie um `.env` em cada projeto que for executar, usando o `.env.example` do
-próprio projeto como base:
-
-```bash
-cp projects/forlife-insurance-api/.env.example projects/forlife-insurance-api/.env
-```
-
-Variáveis obrigatórias:
+Crie um `.env` na raiz com as credenciais do PostgreSQL:
 
 ```env
 DB_USER=postgres
@@ -94,56 +69,35 @@ DB_PORT=5432
 DB_NAME=seguros
 ```
 
-## Executar Seed
+## Executar os Serviços
 
 ```bash
-cd projects/forlife-insurance-seed
-poetry run forlife-seed --mode once --batch-size 20
+# API transacional (FastAPI)
+poetry run task api
+
+# Interface web (Streamlit)
+poetry run task ui
+
+# Seed do banco (carga única de dados sintéticos)
+poetry run task seed
 ```
 
-## Executar API
+Por padrão a API sobe em `http://localhost:8000` e a UI em `http://localhost:8501`.
+
+## Comandos de Qualidade
 
 ```bash
-cd projects/forlife-insurance-api
-poetry run uvicorn forlife_insurance_api.app:app --reload
+poetry run task lint         # formata código com black + isort
+poetry run task lint-check   # verifica formatação sem alterar arquivos (CI)
+poetry run task security     # análise estática com bandit
+poetry run task test         # roda pytest
 ```
 
-## Executar Extract
+## Pre-commit
 
 ```bash
-cd projects/forlife-insurance-extract
-poetry run uvicorn forlife_insurance_extract.app:app --reload
-
-# ou via job CLI:
-poetry run forlife-extract-apolices --output-path ./out/apolices.ndjson
-```
-
-## Comandos Unificados (taskipy)
-
-```bash
-poetry run task install      # instala todos os projetos
-poetry run task lint         # formata com black e isort em todos os projetos
-poetry run task lint-check   # verifica formatação sem alterar arquivos
-poetry run task security     # roda bandit em todos os projetos
-poetry run task test         # roda pytest em todos os projetos
-poetry run task all          # executa install + lint + security + test
-```
-
-## Qualidade de Código
-
-As ferramentas de qualidade são configuradas na raiz via `pyproject.toml` e
-coordenadas pelo `pre-commit`. Para ativar os hooks localmente:
-
-```bash
-poetry install        # na raiz, instala as dev deps compartilhadas
+poetry install
 pre-commit install
 ```
 
-## Documentação
-
-- [Arquitetura](docs/architecture.md)
-- [Guia de desenvolvimento](docs/development.md)
-- [Core](projects/forlife-insurance-core/README.md)
-- [Seed](projects/forlife-insurance-seed/README.md)
-- [API](projects/forlife-insurance-api/README.md)
-- [Extract](projects/forlife-insurance-extract/README.md)
+Os hooks rodam black, isort e bandit automaticamente a cada `git commit`.
