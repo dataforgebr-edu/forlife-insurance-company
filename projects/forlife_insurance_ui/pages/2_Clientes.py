@@ -57,7 +57,7 @@ def _criar_cliente():
     with col1:
         nome = st.text_input("Nome", key="c_nome")
         email = st.text_input("E-mail", key="c_email")
-        telefone = st.text_input("Telefone (ex: +55 11 91234-5678)", key="c_telefone")
+        telefone = st.text_input("Telefone (ex: 55 11 91234-5678)", key="c_telefone")
     with col2:
         endereco = st.text_input("Endereço", key="c_endereco")
         data_nascimento = st.date_input("Data de Nascimento", key="c_data_nasc")
