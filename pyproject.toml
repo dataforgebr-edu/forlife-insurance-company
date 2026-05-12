@@ -27,9 +27,6 @@ streamlit = ">=1.35.0"
 httpx = ">=0.27.0"
 pandas = ">=2.2.0"
 
-[tool.poetry.scripts]
-forlife-seed = "forlife_insurance_seed.runner:main"
-
 [tool.poetry.group.dev.dependencies]
 black = ">=24.3.0,<25.0.0"
 isort = ">=5.13.2,<6.0.0"
@@ -45,7 +42,7 @@ security   = { cmd = "bandit -r projects -lll",                                h
 test       = { cmd = "pytest",                                                 help = "Roda testes" }
 api        = { cmd = "uvicorn forlife_insurance_api.app:app --reload",         help = "Sobe a API" }
 ui         = { cmd = "streamlit run projects/forlife_insurance_ui/app.py",     help = "Sobe o Streamlit" }
-seed       = { cmd = "forlife-seed --mode once --batch-size 20",              help = "Seed do banco" }
+seed       = { cmd = "python projects/forlife_insurance_seed/runner.py --mode once --batch-size 5",              help = "Seed do banco" }
 
 [tool.isort]
 profile = "black"

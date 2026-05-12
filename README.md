@@ -1,6 +1,6 @@
 # Forlife Insurance Company
 
-Monorepo de portfólio para o domínio de seguros de vida. Quatro pacotes Python convivem em um único ambiente virtual gerenciado pelo Poetry a partir da raiz.
+A ideia desse projeto é criar um ambiente completo que simule uma estrutura real de uma empresa de seguros. Desde o desenho do banco de dados com entidades e relacionamentos, seed de dados faker e desenvolvimento de um CRUD para espelhar um sistema operacional.
 
 ## Pacotes
 
@@ -17,7 +17,7 @@ Hierarquia de dependência: **Core ← API, Seed** (UI acessa a API via HTTP).
 
 ```
 forlife-insurance-company/
-├── pyproject.toml          # único — consolida todas as dependências e tasks
+├── pyproject.toml          
 ├── poetry.lock
 ├── .env                    # variáveis de conexão com o banco
 ├── .python-version
@@ -101,3 +101,8 @@ pre-commit install
 ```
 
 Os hooks rodam black, isort e bandit automaticamente a cada `git commit`.
+
+## Próximos passos
+
+- Implementar uma camada de testes 
+- Conteinerização do ambiente usando docker
