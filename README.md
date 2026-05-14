@@ -110,33 +110,6 @@ forlife-insurance-company/
 - [Poetry](https://python-poetry.org/) >= 2.0
 - PostgreSQL em execução
 
-## Instalação
-
-```bash
-git clone <repo-url>
-cd forlife-insurance-company
-poetry install
-```
-
-## Variáveis de Ambiente
-
-Copie o arquivo de exemplo e preencha com suas credenciais:
-
-```bash
-cp .env-example .env
-```
-
-```env
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=seguros
-API_BASE_URL=http://localhost:8000
-```
-
-> `DB_HOST` e `API_BASE_URL` são usados apenas no modo Poetry. No modo Docker, o `docker-compose.yml` os sobrescreve automaticamente (`DB_HOST=postgres`, `API_BASE_URL=http://api:8000`).
-
 ## Executar com Docker
 
 Suba o stack completo com um único comando:
@@ -178,6 +151,33 @@ docker compose up --build
 ```bash
 docker compose run --rm seed
 ```
+
+## Execução para desenvolvimento local
+
+```bash
+git clone <repo-url>
+cd forlife-insurance-company
+poetry install
+```
+
+## Variáveis de Ambiente
+
+Copie o arquivo de exemplo e preencha com suas credenciais:
+
+```bash
+cp .env-example .env
+```
+
+```env
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=seguros
+API_BASE_URL=http://localhost:8000
+```
+
+> `DB_HOST` e `API_BASE_URL` são usados apenas no modo Poetry. No modo Docker, o `docker-compose.yml` os sobrescreve automaticamente (`DB_HOST=postgres`, `API_BASE_URL=http://api:8000`).
 
 ## Executar os Serviços
 
