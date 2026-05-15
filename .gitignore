@@ -7,7 +7,7 @@
 *.lock
 CLAUDE.md
 .claude
-doc/
+docs/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
