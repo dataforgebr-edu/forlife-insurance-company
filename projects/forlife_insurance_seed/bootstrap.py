@@ -9,7 +9,7 @@ from forlife_insurance_core.models.dominios import (
     StatusApolice,
     StatusSinistro,
 )
-from forlife_insurance_seed.types import DomainReferences
+from forlife_insurance_seed.domain_types import DomainReferences
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 

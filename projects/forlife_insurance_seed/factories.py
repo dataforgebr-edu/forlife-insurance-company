@@ -11,7 +11,7 @@ from forlife_insurance_core.models.corretor import Corretor
 from forlife_insurance_core.models.parcelas import Parcela
 from forlife_insurance_core.models.sinistros import Sinistro
 from forlife_insurance_seed.bootstrap import PERIODICIDADE_MESES
-from forlife_insurance_seed.types import CreatedApolice, DomainReferences
+from forlife_insurance_seed.domain_types import CreatedApolice, DomainReferences
 from sqlalchemy.orm import Session
 
 faker = Faker("pt_BR")
