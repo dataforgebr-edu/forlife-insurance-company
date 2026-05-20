@@ -195,7 +195,7 @@ poetry run task seed
 Por padrão a API sobe em `http://localhost:8000` e a UI em `http://localhost:8501`.  
 A documentação interativa da API está disponível em `http://localhost:8000/docs`.
 
-## Qualidade de Código
+## Qualidade de Código 
 
 ```bash
 poetry run task lint         # formata código com black + isort
